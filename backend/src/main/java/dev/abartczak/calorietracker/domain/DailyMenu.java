@@ -13,6 +13,7 @@ public class DailyMenu {
     private LocalDate date;
 
     @ManyToOne
+    @JoinColumn(name = "user_info_id")
     private User user;
 
     @OneToMany(mappedBy = "dailyMenu", cascade = CascadeType.ALL)
