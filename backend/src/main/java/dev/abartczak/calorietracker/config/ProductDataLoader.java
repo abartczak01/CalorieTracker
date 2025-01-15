@@ -2,16 +2,14 @@ package dev.abartczak.calorietracker.config;
 
 import dev.abartczak.calorietracker.domain.Product;
 import dev.abartczak.calorietracker.repository.ProductRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+@AllArgsConstructor
 @Component
 public class ProductDataLoader implements CommandLineRunner {
     private final ProductRepository repository;
-
-    public ProductDataLoader(ProductRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -24,7 +22,8 @@ public class ProductDataLoader implements CommandLineRunner {
                 3.2,
                 4.7,
                 0.0,
-                0.05
+                0.05,
+                false
         );
 
         Product product2 = new Product(
@@ -36,7 +35,8 @@ public class ProductDataLoader implements CommandLineRunner {
                 46.0,
                 32.0,
                 7.0,
-                0.01
+                0.01,
+                true
         );
 
         Product product3 = new Product(
@@ -48,7 +48,8 @@ public class ProductDataLoader implements CommandLineRunner {
                 4.0,
                 41.0,
                 6.0,
-                0.55
+                0.55,
+                true
         );
 
         Product product4 = new Product(
@@ -60,7 +61,8 @@ public class ProductDataLoader implements CommandLineRunner {
                 0.2,
                 14.0,
                 2.4,
-                0.0
+                0.0,
+                true
         );
 
         repository.save(product1);

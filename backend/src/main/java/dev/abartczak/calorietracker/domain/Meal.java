@@ -1,9 +1,17 @@
 package dev.abartczak.calorietracker.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,6 +20,7 @@ public class Meal {
     private String name;
 
     @ManyToOne
+    @JsonBackReference
     private DailyMenu dailyMenu;
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)

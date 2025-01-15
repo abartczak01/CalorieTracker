@@ -1,5 +1,6 @@
 package dev.abartczak.calorietracker.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.abartczak.calorietracker.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,10 +27,11 @@ public class User {
     private Role role;
 
     private LocalDate createdAt;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private UserInfo userInfo;
-
+//
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+//    private UserInfo userInfo;
+//
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<DailyMenu> dailyMenus;
 

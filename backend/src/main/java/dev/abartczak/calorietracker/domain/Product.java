@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Product {
 
     @Id
@@ -22,6 +23,7 @@ public class Product {
     private Double carbohydrate;
     private Double fiber;
     private Double sodium;
+    private Boolean isVegan;
 
 
 }
