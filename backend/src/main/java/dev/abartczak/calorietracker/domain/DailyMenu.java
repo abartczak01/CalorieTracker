@@ -21,12 +21,12 @@ public class DailyMenu {
 
     private LocalDate date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
 
-    @OneToMany(mappedBy = "dailyMenu", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dailyMenu", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Meal> meals;
 }

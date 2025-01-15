@@ -46,6 +46,11 @@ public class DailyMenuController {
         User user = userService.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
 
+        Optional<DailyMenu> existingMenu = dailyMenuService.findByDate(date);
+        if (existingMenu.isPresent()) {
+            return ResponseEntity.status(409).build();
+        }
+
         DailyMenu dailyMenu = new DailyMenu();
         dailyMenu.setUser(user);
         dailyMenu.setDate(date);
@@ -62,10 +67,9 @@ public class DailyMenuController {
 
         dailyMenu.setMeals(meals);
 
-        DailyMenu savedMenu = dailyMenuService.save(dailyMenu);
+        DailyMenu savedMenu = dailyMenuService.addNewMenu(dailyMenu);
 
         return ResponseEntity.ok(savedMenu);
-
     }
 
     @DeleteMapping("/{id}")

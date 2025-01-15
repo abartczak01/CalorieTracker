@@ -1,8 +1,14 @@
 package dev.abartczak.calorietracker.domain;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductQuantity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,5 +20,5 @@ public class ProductQuantity {
     @ManyToOne
     private Meal meal;
 
-    private Double quantity; // quantity in grams
+    private Integer quantity; // quantity in grams
 }

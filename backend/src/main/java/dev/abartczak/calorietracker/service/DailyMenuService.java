@@ -6,6 +6,7 @@ import dev.abartczak.calorietracker.repository.DailyMenuRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ public class DailyMenuService {
 
     private DailyMenuRepository dailyMenuRepository;
 
-    public DailyMenu save(DailyMenu dailyMenu) {
+    public DailyMenu addNewMenu(DailyMenu dailyMenu) {
         return dailyMenuRepository.save(dailyMenu);
     }
 
@@ -30,5 +31,11 @@ public class DailyMenuService {
     public List<DailyMenu> findByUser(User user) {
         return dailyMenuRepository.findByUser(user);
     }
+
+    public Optional<DailyMenu> findByDate(LocalDate date) {
+        return dailyMenuRepository.findByDate(date);
+    }
+
+
 
 }
