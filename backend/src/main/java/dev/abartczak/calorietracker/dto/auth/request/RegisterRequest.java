@@ -18,8 +18,8 @@ public class RegisterRequest {
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
-    private Integer height;
-    private Integer weight;
-    private PhysicalActivityLevel physicalActivityLevel;
-    private Float caloricGoalMultiplier;
+//    private Integer height;
+//    private Integer weight;
+//    private PhysicalActivityLevel physicalActivityLevel;
+//    private Float caloricGoalMultiplier;
 }

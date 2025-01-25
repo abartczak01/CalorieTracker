@@ -1,6 +1,5 @@
 package dev.abartczak.calorietracker.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 

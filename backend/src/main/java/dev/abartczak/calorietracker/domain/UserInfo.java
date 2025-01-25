@@ -25,12 +25,12 @@ public class UserInfo {
     private String lastName;
     private LocalDate birthDate;
 
-    private Integer height;     // height in cm
-    private Integer weight;     // weight in kg
-
-    @Enumerated(EnumType.STRING)
-    private PhysicalActivityLevel physicalActivityLevel;
-    private Float caloricGoalMultiplier;
+//    private Integer height;     // height in cm
+//    private Integer weight;     // weight in kg
+//
+//    @Enumerated(EnumType.STRING)
+//    private PhysicalActivityLevel physicalActivityLevel;
+//    private Float caloricGoalMultiplier;
 
 //    private Integer basalMetabolicRate; // BMR
 
