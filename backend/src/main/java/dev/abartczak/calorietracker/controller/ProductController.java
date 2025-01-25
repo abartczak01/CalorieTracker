@@ -17,11 +17,6 @@ import java.util.Optional;
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping("")
-    ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(productService.findAll());
-    }
-
     @GetMapping("/{id}")
     ResponseEntity<Product> getProductById(@PathVariable long id) {
         Optional<Product> foundProduct = productService.findById(id);
@@ -30,6 +25,26 @@ public class ProductController {
                     String.format("Product with id %s not found", id));
         }
         return ResponseEntity.ok(foundProduct.get());
+    }
+
+    @GetMapping("/search")
+    ResponseEntity<List<Product>> searchProducts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String ingredients,
+            @RequestParam(required = false) Boolean isVegan,
+            @RequestParam(required = false) Integer minKcal,
+            @RequestParam(required = false) Integer maxKcal,
+            @RequestParam(required = false) Double minProtein,
+            @RequestParam(required = false) Double maxProtein,
+            @RequestParam(required = false) Double minFat,
+            @RequestParam(required = false) Double maxFat,
+            @RequestParam(required = false) Double minCarbohydrate,
+            @RequestParam(required = false) Double maxCarbohydrate
+    ) {
+        List<Product> products = productService.searchProducts(
+                name, ingredients, isVegan, minKcal, maxKcal, minProtein, maxProtein, minFat, maxFat, minCarbohydrate, maxCarbohydrate
+        );
+        return ResponseEntity.ok(products);
     }
 
     @PostMapping("")
