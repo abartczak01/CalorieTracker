@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Builder
 public class DailyMenu {
     @Id
@@ -23,10 +25,10 @@ public class DailyMenu {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+//    @JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "dailyMenu", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<Meal> meals;
+//    @JsonManagedReference
+    private List<Meal> meals = new ArrayList<>();
 }

@@ -31,7 +31,7 @@ public class User {
 //    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 //    private UserInfo userInfo;
 //
-    @JsonManagedReference
+//    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<DailyMenu> dailyMenus;
 

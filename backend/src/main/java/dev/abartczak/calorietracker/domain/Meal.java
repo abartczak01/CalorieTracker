@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
-
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@ToString
 @Builder
 public class Meal {
     @Id
@@ -19,10 +20,10 @@ public class Meal {
 
     private String name;
 
-    @ManyToOne
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "daily_menu_id")
     private DailyMenu dailyMenu;
 
-    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
-    private List<ProductQuantity> productQuantities;
+    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProductQuantity> productQuantities = new ArrayList<>();
 }

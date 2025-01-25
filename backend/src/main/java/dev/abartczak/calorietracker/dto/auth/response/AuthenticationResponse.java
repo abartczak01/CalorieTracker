@@ -1,4 +1,4 @@
-package dev.abartczak.calorietracker.dto.response;
+package dev.abartczak.calorietracker.dto.auth.response;
 
 import lombok.*;
 

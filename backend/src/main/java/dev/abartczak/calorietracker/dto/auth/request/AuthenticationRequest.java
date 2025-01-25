@@ -1,4 +1,4 @@
-package dev.abartczak.calorietracker.dto.request;
+package dev.abartczak.calorietracker.dto.auth.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

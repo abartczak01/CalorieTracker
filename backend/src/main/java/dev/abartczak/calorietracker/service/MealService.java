@@ -3,6 +3,8 @@ package dev.abartczak.calorietracker.service;
 import dev.abartczak.calorietracker.domain.Meal;
 import dev.abartczak.calorietracker.domain.Product;
 import dev.abartczak.calorietracker.domain.ProductQuantity;
+import dev.abartczak.calorietracker.dto.ProductQuantityDTO;
+import dev.abartczak.calorietracker.mapper.ProductQuantityMapper;
 import dev.abartczak.calorietracker.repository.MealRepository;
 import dev.abartczak.calorietracker.repository.ProductQuantityRepository;
 import dev.abartczak.calorietracker.repository.ProductRepository;
@@ -18,12 +20,13 @@ public class MealService {
     private final MealRepository mealRepository;
     private final ProductRepository productRepository;
     private final ProductQuantityRepository productQuantityRepository;
+    private final ProductQuantityMapper productQuantityMapper;
 
     public Optional<Meal> findById(Long id) {
         return mealRepository.findById(id);
     }
 
-    public ProductQuantity addProductQuantityToMeal(Long mealId, Long productId, Integer quantity) {
+    public ProductQuantityDTO addProductQuantityToMeal(Long mealId, Long productId, Integer quantity) {
         Meal foundMeal = mealRepository.findById(mealId)
                 .orElseThrow(() -> new IllegalArgumentException("Meal not found with id: " + mealId));
 
@@ -36,7 +39,9 @@ public class MealService {
                 .quantity(quantity)
                 .build();
 
-        return productQuantityRepository.save(productQuantity);
+        ProductQuantity savedProductQuantity = productQuantityRepository.save(productQuantity);
+
+        return productQuantityMapper.toProductQuantityDTO(savedProductQuantity);
     }
 
     public void removeProductQuantity(Long productQuantityId) {
@@ -46,14 +51,14 @@ public class MealService {
         productQuantityRepository.delete(productQuantity);
     }
 
-    public ProductQuantity updateProductQuantity(Long productQuantityId, Integer newQuantity) {
+    public ProductQuantityDTO updateProductQuantity(Long productQuantityId, Integer newQuantity) {
         ProductQuantity productQuantity = productQuantityRepository.findById(productQuantityId)
                 .orElseThrow(() -> new IllegalArgumentException("ProductQuantity not found with id: " + productQuantityId));
 
         productQuantity.setQuantity(newQuantity);
 
-        return productQuantityRepository.save(productQuantity);
+        ProductQuantity updatedProductQuantity = productQuantityRepository.save(productQuantity);
+
+        return productQuantityMapper.toProductQuantityDTO(updatedProductQuantity);
     }
-
-
 }

@@ -1,4 +1,4 @@
-package dev.abartczak.calorietracker.dto.request;
+package dev.abartczak.calorietracker.dto.auth.request;
 
 import dev.abartczak.calorietracker.domain.enums.PhysicalActivityLevel;
 import lombok.AllArgsConstructor;

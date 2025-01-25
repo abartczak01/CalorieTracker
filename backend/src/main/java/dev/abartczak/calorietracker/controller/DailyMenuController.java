@@ -1,7 +1,8 @@
 package dev.abartczak.calorietracker.controller;
 
-import dev.abartczak.calorietracker.domain.DailyMenu;
 import dev.abartczak.calorietracker.domain.Meal;
+import dev.abartczak.calorietracker.dto.DailyMenuDTO;
+import dev.abartczak.calorietracker.domain.DailyMenu;
 import dev.abartczak.calorietracker.domain.User;
 import dev.abartczak.calorietracker.service.DailyMenuService;
 import dev.abartczak.calorietracker.service.UserService;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -23,31 +23,28 @@ public class DailyMenuController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<DailyMenu> getDailyMenu(@PathVariable Long id) {
-        Optional<DailyMenu> foundMenu = dailyMenuService.findById(id);
-        return foundMenu.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<DailyMenuDTO> getDailyMenu(@PathVariable Long id) {
+        return dailyMenuService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<DailyMenu>> getDailyMenuByUserId(@PathVariable Long userId) {
-        Optional<User> user = userService.findById(userId);
-
-        return user.map(value -> {
-            List<DailyMenu> usersMenus = dailyMenuService.findByUser(value);
-            return ResponseEntity.ok(usersMenus);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<DailyMenuDTO>> getDailyMenusByUserId(@PathVariable Long userId) {
+        return userService.findById(userId)
+                .map(user -> ResponseEntity.ok(dailyMenuService.findByUser(user)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/user/{userId}")
-    public ResponseEntity<DailyMenu> createDailyMenuForUser(
+    public ResponseEntity<DailyMenuDTO> createDailyMenuForUser(
             @PathVariable Long userId,
             @RequestParam LocalDate date) {
 
         User user = userService.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
 
-        Optional<DailyMenu> existingMenu = dailyMenuService.findByDate(date);
-        if (existingMenu.isPresent()) {
+        if (dailyMenuService.findByDate(date).isPresent()) {
             return ResponseEntity.status(409).build();
         }
 
@@ -57,25 +54,27 @@ public class DailyMenuController {
 
         List<Meal> meals = new ArrayList<>();
         String[] mealNames = {"Breakfast", "Lunch", "Dinner", "Snacks"};
-        for (String name : mealNames) {
+        for (String mealName : mealNames) {
             Meal meal = Meal.builder()
-                    .name(name)
+                    .name(mealName)
                     .dailyMenu(dailyMenu)
+                    .productQuantities(new ArrayList<>())
                     .build();
             meals.add(meal);
         }
-
         dailyMenu.setMeals(meals);
 
-        DailyMenu savedMenu = dailyMenuService.addNewMenu(dailyMenu);
+        DailyMenuDTO savedMenu = dailyMenuService.addNewMenu(dailyMenu);
 
         return ResponseEntity.ok(savedMenu);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<DailyMenu> deleteDailyMenu(@PathVariable Long id) {
-        Optional<DailyMenu> foundMenu = dailyMenuService.findById(id);
-        return foundMenu.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Void> deleteDailyMenu(@PathVariable Long id) {
+        if (dailyMenuService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        dailyMenuService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
-
 }
