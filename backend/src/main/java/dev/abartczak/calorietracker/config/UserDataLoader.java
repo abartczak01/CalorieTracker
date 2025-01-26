@@ -25,7 +25,7 @@ public class UserDataLoader implements ApplicationListener<ContextRefreshedEvent
         if (userRepository.count() == 0) {
             User user1 = User.builder()
                     .email("user@example.com")
-                    .password(passwordEncoder.encode("password1"))
+                    .password(passwordEncoder.encode("password123"))
                     .role(Role.USER)
                     .createdAt(LocalDate.now())
                     .build();

@@ -4,10 +4,11 @@ import dev.abartczak.calorietracker.domain.Product;
 import dev.abartczak.calorietracker.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -19,16 +20,33 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
-    }
-
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
+    public Product findById(Long id) {
+        return productRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Product with id %s not found", id)));
     }
 
     public void deleteById(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Product with id %s not found", id));
+        }
         productRepository.deleteById(id);
+    }
+
+    public Product updateProduct(Long id, Product updatedProduct) {
+        Product existingProduct = productRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Product with id %s not found", id)));
+
+        existingProduct.setName(updatedProduct.getName());
+        existingProduct.setIngredients(updatedProduct.getIngredients());
+        existingProduct.setKcal(updatedProduct.getKcal());
+        existingProduct.setProtein(updatedProduct.getProtein());
+        existingProduct.setFat(updatedProduct.getFat());
+        existingProduct.setCarbohydrate(updatedProduct.getCarbohydrate());
+        existingProduct.setFiber(updatedProduct.getFiber());
+        existingProduct.setSodium(updatedProduct.getSodium());
+        existingProduct.setIsVegan(updatedProduct.getIsVegan());
+
+        return productRepository.save(existingProduct);
     }
 
     public List<Product> searchProducts(
@@ -43,7 +61,7 @@ public class ProductService {
             Double maxFat,
             Double minCarbohydrate,
             Double maxCarbohydrate
-    ){
+    ) {
         Specification<Product> spec = Specification.where(null);
 
         if (name != null) {
@@ -93,5 +111,4 @@ public class ProductService {
 
         return productRepository.findAll(spec);
     }
-
 }

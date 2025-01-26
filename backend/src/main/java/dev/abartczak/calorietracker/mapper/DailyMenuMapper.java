@@ -42,6 +42,7 @@ public class DailyMenuMapper {
         return DailyMenuDTO.builder()
                 .id(dailyMenu.getId())
                 .date(dailyMenu.getDate())
+                .userId(dailyMenu.getUser().getId())
                 .meals(meals)
                 .totalKcal(totalCalories)
                 .totalProtein(totalProtein)

@@ -14,6 +14,7 @@ import java.util.List;
 public class DailyMenuDTO {
     private Long id;
     private LocalDate date;
+    private Long userId;
     private List<MealDTO> meals = new ArrayList<>();
     private Integer totalKcal;
     private Double totalProtein;

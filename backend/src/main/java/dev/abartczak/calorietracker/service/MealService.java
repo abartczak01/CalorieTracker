@@ -26,6 +26,13 @@ public class MealService {
         return mealRepository.findById(id);
     }
 
+    public ProductQuantityDTO getProductQuantityById(Long productQuantityId) {
+        ProductQuantity productQuantity = productQuantityRepository.findById(productQuantityId)
+                .orElseThrow(() -> new IllegalArgumentException("ProductQuantity not found with id: " + productQuantityId));
+
+        return productQuantityMapper.toProductQuantityDTO(productQuantity);
+    }
+
     public ProductQuantityDTO addProductQuantityToMeal(Long mealId, Long productId, Integer quantity) {
         Meal foundMeal = mealRepository.findById(mealId)
                 .orElseThrow(() -> new IllegalArgumentException("Meal not found with id: " + mealId));

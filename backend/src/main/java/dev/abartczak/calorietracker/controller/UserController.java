@@ -3,14 +3,10 @@ package dev.abartczak.calorietracker.controller;
 import dev.abartczak.calorietracker.domain.User;
 import dev.abartczak.calorietracker.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -25,21 +21,13 @@ public class UserController {
 
     @GetMapping("/{id}")
     ResponseEntity<User> getUserById(@PathVariable long id) {
-        Optional<User> foundUser = userService.findById(id);
-        if (foundUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("User with id %d not found", id));
-        }
-        return ResponseEntity.ok(foundUser.get());
+        User foundUser = userService.findById(id);
+        return ResponseEntity.ok(foundUser);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable long id) {
-        Optional<User> foundUser = userService.findById(id);
-        if (foundUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("User with id %d not found", id));
-        }
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
 }
