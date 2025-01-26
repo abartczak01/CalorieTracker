@@ -1,7 +1,6 @@
 package dev.abartczak.calorietracker.service;
 
 import dev.abartczak.calorietracker.domain.User;
-import dev.abartczak.calorietracker.domain.UserInfo;
 import dev.abartczak.calorietracker.domain.enums.Role;
 import dev.abartczak.calorietracker.dto.auth.request.AuthenticationRequest;
 import dev.abartczak.calorietracker.dto.auth.request.RegisterRequest;
@@ -37,15 +36,6 @@ public class AuthenticationService {
                 .dailyMenus(new ArrayList<>())
                 .createdAt(LocalDate.now())
                 .build();
-
-        UserInfo userInfo = UserInfo.builder()
-                .user(user)
-                .firstName(registerRequest.getFirstName())
-                .lastName(registerRequest.getLastName())
-                .birthDate(registerRequest.getBirthDate())
-                .build();
-
-        user.setUserInfo(userInfo);
 
         userRepository.save(user);
 

@@ -23,6 +23,14 @@ public class UserDataLoader implements ApplicationListener<ContextRefreshedEvent
     @Override
     public void onApplicationEvent(@NotNull ContextRefreshedEvent event) {
         if (userRepository.count() == 0) {
+            User admin = User.builder()
+                    .email("admin@example.com")
+                    .password(passwordEncoder.encode("admin123"))
+                    .role(Role.ADMIN)
+                    .createdAt(LocalDate.now())
+                    .build();
+
+
             User user1 = User.builder()
                     .email("user@example.com")
                     .password(passwordEncoder.encode("password123"))
@@ -44,7 +52,7 @@ public class UserDataLoader implements ApplicationListener<ContextRefreshedEvent
                     .createdAt(LocalDate.now())
                     .build();
 
-            userRepository.saveAll(List.of(user1, user2, user3));
+            userRepository.saveAll(List.of(user1, user2, user3, admin));
         }
     }
 }

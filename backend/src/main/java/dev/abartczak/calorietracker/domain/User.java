@@ -1,5 +1,6 @@
 package dev.abartczak.calorietracker.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.abartczak.calorietracker.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,15 +33,13 @@ public class User implements UserDetails {
 
     private LocalDate createdAt;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private UserInfo userInfo;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<DailyMenu> dailyMenus = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
@@ -72,5 +71,7 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
+
+
 
 }

@@ -1,5 +1,5 @@
 package dev.abartczak.calorietracker.controller;
-//
+
 import dev.abartczak.calorietracker.dto.auth.request.AuthenticationRequest;
 import dev.abartczak.calorietracker.dto.auth.request.RegisterRequest;
 import dev.abartczak.calorietracker.dto.auth.response.AuthenticationResponse;

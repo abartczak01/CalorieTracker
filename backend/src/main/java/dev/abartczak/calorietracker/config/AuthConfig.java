@@ -1,5 +1,4 @@
 package dev.abartczak.calorietracker.config;
-//
 
 import dev.abartczak.calorietracker.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

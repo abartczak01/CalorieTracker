@@ -10,6 +10,5 @@ import java.util.Optional;
 
 public interface DailyMenuRepository extends JpaRepository<DailyMenu, Long> {
     List<DailyMenu> findByUser(User user);
-    Optional<DailyMenu> findByDate(LocalDate date);
     Optional<DailyMenu> findByDateAndUser(LocalDate date, User user);
 }

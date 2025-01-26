@@ -5,6 +5,7 @@ import dev.abartczak.calorietracker.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,18 +41,21 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @PostMapping("")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/admin")
     ResponseEntity<Product> createProduct(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }
 
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> deleteProductById(@PathVariable long id) {
         productService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product updatedProduct) {
         return ResponseEntity.ok(productService.updateProduct(id, updatedProduct));
     }

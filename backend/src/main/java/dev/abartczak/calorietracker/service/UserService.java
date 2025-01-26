@@ -3,12 +3,15 @@ package dev.abartczak.calorietracker.service;
 import dev.abartczak.calorietracker.domain.Meal;
 import dev.abartczak.calorietracker.domain.ProductQuantity;
 import dev.abartczak.calorietracker.domain.User;
+import dev.abartczak.calorietracker.domain.enums.Role;
+import dev.abartczak.calorietracker.dto.auth.request.UpdateUserRequest;
 import dev.abartczak.calorietracker.repository.MealRepository;
 import dev.abartczak.calorietracker.repository.ProductQuantityRepository;
 import dev.abartczak.calorietracker.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final MealRepository mealRepository;
     private final ProductQuantityRepository productQuantityRepository;
 
@@ -36,12 +40,34 @@ public class UserService {
 
     public void deleteById(Long id) {
         User user = findById(id);
+        if (user.getRole() == Role.ADMIN) {
+            throw new SecurityException("You cannot delete the admin account.");
+        }
         userRepository.delete(user);
     }
 
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (User) authentication.getPrincipal();
+    }
+
+    public User updateUser(Long id, UpdateUserRequest updateUserRequest) {
+        User user = findById(id);
+
+        if (updateUserRequest.getEmail() != null) {
+            boolean emailExists = userRepository.existsByEmail(updateUserRequest.getEmail());
+            if (emailExists && !updateUserRequest.getEmail().equals(user.getEmail())) {
+                throw new IllegalArgumentException("Email is already taken.");
+            }
+            user.setEmail(updateUserRequest.getEmail());
+
+        }
+
+        if (updateUserRequest.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
+        }
+
+        return userRepository.save(user);
     }
 
     public void ensureMealBelongsToCurrentUser(Long mealId) {
