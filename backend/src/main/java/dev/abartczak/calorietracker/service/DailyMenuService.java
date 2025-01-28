@@ -23,7 +23,7 @@ public class DailyMenuService {
 
     public DailyMenuDTO addNewMenu(DailyMenu dailyMenu) {
         if (dailyMenuRepository.findByDateAndUser(dailyMenu.getDate(), dailyMenu.getUser()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Daily menu for this date already exists.");
+            throw new IllegalStateException( "Daily menu for this date already exists.");
         }
 
         DailyMenu savedMenu = dailyMenuRepository.save(dailyMenu);

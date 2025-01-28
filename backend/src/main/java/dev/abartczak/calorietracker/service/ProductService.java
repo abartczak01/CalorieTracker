@@ -20,6 +20,10 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
     public Product findById(Long id) {
         return productRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Product with id %s not found", id)));

@@ -1,4 +1,4 @@
-package dev.abartczak.calorietracker.controller;
+package dev.abartczak.calorietracker.controller.api;
 
 import dev.abartczak.calorietracker.domain.User;
 import dev.abartczak.calorietracker.dto.auth.request.UpdateUserRequest;

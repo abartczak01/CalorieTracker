@@ -1,4 +1,4 @@
-package dev.abartczak.calorietracker.config;
+package dev.abartczak.calorietracker.config.dataloader;
 
 import dev.abartczak.calorietracker.domain.User;
 import dev.abartczak.calorietracker.domain.enums.Role;

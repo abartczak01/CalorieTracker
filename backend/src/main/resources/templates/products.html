@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Products</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+
+        <a th:href="@{/web/products/new}">Add a New Product</a>
+        <form class="action-form" th:action="@{/web/logout}" method="post" style="display:inline;">
+            <button class="action-button" type="submit">Logout</button>
+        </form>
+    </nav>
+
+    <h2>Search Products</h2>
+    <form th:action="@{/web/products}" method="get">
+        <div>
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" th:value="${name}" placeholder="Search by name">
+        </div>
+        <div>
+            <label for="minKcal">Min Calories:</label>
+            <input type="number" id="minKcal" name="minKcal" th:value="${minKcal}">
+        </div>
+        <div>
+            <label for="maxKcal">Max Calories:</label>
+            <input type="number" id="maxKcal" name="maxKcal" th:value="${maxKcal}">
+        </div>
+        <div>
+            <label for="isVegan">Vegan:</label>
+            <select id="isVegan" name="isVegan" th:value="${isVegan}">
+                <option value="" selected>All</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Search</button>
+        </div>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Energy (kcal)</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.kcal}"></td>
+            <td>
+                <a th:href="@{/web/products/{id}(id=${product.id})}">Details</a>
+                <a th:href="@{/web/products/edit/{id}(id=${product.id})}">Edit</a>
+                <form class="action-form" th:action="@{/web/products/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
+                    <button class="action-button" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

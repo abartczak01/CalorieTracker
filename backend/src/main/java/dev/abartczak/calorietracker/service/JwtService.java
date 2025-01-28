@@ -1,6 +1,7 @@
 package dev.abartczak.calorietracker.service;
 
 
+import dev.abartczak.calorietracker.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -31,7 +32,11 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> extraClaims = new HashMap<>();
+        if (userDetails instanceof User) {
+            extraClaims.put("role", ((User) userDetails).getRole().name());
+        }
+        return generateToken(extraClaims, userDetails);
     }
 
     public String generateToken(Map<String, Object> extraClaims , UserDetails userDetails) {
@@ -71,4 +76,17 @@ public class JwtService {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
+
+    public boolean hasAdminRole(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            String role = claims.get("role", String.class); // Pobieramy rolę użytkownika z tokena
+            System.out.println(role);
+            return "ADMIN".equals(role);
+        } catch (Exception e) {
+            return false; // Jeśli wystąpił błąd (np. niepoprawny token), zwracamy false
+        }
+    }
+
+
 }

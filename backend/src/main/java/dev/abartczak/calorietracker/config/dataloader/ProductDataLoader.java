@@ -1,4 +1,4 @@
-package dev.abartczak.calorietracker.config;
+package dev.abartczak.calorietracker.config.dataloader;
 
 import dev.abartczak.calorietracker.domain.Product;
 import dev.abartczak.calorietracker.repository.ProductRepository;

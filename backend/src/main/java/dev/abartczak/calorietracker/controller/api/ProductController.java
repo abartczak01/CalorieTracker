@@ -1,4 +1,4 @@
-package dev.abartczak.calorietracker.controller;
+package dev.abartczak.calorietracker.controller.api;
 
 import dev.abartczak.calorietracker.domain.Product;
 import dev.abartczak.calorietracker.service.ProductService;
