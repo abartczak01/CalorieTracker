@@ -32,7 +32,7 @@ Calorie Tracker is a web application built with <strong>Spring Boot</strong>, al
 - adding, editing and deleting products
 - editing and deleting users
 
-### Installation and Setup
+## Installation and Setup
 
 1. Clone the repo
 2. Start the database using Docker Compose
