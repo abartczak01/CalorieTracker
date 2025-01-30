@@ -80,11 +80,11 @@ public class JwtService {
     public boolean hasAdminRole(String token) {
         try {
             Claims claims = extractAllClaims(token);
-            String role = claims.get("role", String.class); // Pobieramy rolę użytkownika z tokena
+            String role = claims.get("role", String.class);
             System.out.println(role);
             return "ADMIN".equals(role);
         } catch (Exception e) {
-            return false; // Jeśli wystąpił błąd (np. niepoprawny token), zwracamy false
+            return false;
         }
     }
 
