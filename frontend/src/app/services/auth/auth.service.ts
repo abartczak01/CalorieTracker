@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthRequest } from '../../models/auth-request';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,8 @@ export class AuthService {
     return this.http.post<{ token: string }>(`${this.API_URL}/login`, authRequest).pipe(
       tap(response => {
         localStorage.setItem('jwt', response.token)
+        const decodedToken: any = jwtDecode(response.token);
+        localStorage.setItem('role', decodedToken.role);
         this.isLoggedInSubject.next(true);
       }),
       catchError(this.handleLoginError)
@@ -38,6 +41,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('role');
     this.isLoggedInSubject.next(false);
   }
 
@@ -49,8 +53,12 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  isAdmin() {
-    return false;
+  isAdmin(): boolean {
+    return this.getRole() === 'ADMIN';
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem('role');
   }
 
   private handleLoginError(error: HttpErrorResponse) {
@@ -68,3 +76,4 @@ export class AuthService {
   }
 
 }
+
