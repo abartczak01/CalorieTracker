@@ -1,0 +1,61 @@
+<div class="container">
+  <form
+    class="shadow px-5 py-4 rounded bg-light w-100 mx-auto"
+    style="max-width: 500px"
+    [formGroup]="registerForm"
+  >
+    <h4 class="text-center">Register</h4>
+    <div class="mb-3">
+      @if(this.errorMessage) {
+      <div class="alert alert-danger mt-3" role="alert">
+        {{ errorMessage }}
+      </div>
+      }
+      <label for="email" class="form label">E-mail</label>
+      <input
+        id="email"
+        class="form-control"
+        type="text"
+        formControlName="email"
+        [class.is-invalid]="
+          registerForm.get('email')?.invalid &&
+          registerForm.get('email')?.touched
+        "
+      />
+      @if(registerForm.get("email")?.invalid &&
+      registerForm.get("email")?.touched) {
+      <div class="text-danger">Invalid e-mail format</div>
+      }
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form label">Password</label>
+      <input
+        id="password"
+        class="form-control"
+        type="password"
+        formControlName="password"
+        [class.is-invalid]="
+          registerForm.get('password')?.invalid &&
+          registerForm.get('password')?.touched
+        "
+      />
+      @if(registerForm.get("password")?.invalid &&
+      registerForm.get("password")?.touched){
+      <div class="text-danger">
+        The password must be at least 8 characters long.
+      </div>
+      }
+    </div>
+    <button
+      class="btn btn-primary w-100"
+      (click)="saveForm()"
+      [disabled]="registerForm.invalid"
+    >
+      Register
+    </button>
+    <div class="mt-3 d-flex gap-2 justify-content-center">
+      <p>Already have an account?</p>
+      <a href="/auth/sign-in">Log in here.</a>
+    </div>
+  </form>
+</div>
