@@ -1,0 +1,189 @@
+<form
+  class="shadow px-5 py-4 rounded bg-light w-100 mx-auto"
+  [formGroup]="productForm"
+  (ngSubmit)="onSubmit()"
+>
+  <h4 class="text-center">{{ isEditMode ? "Edit" : "Add" }} Product</h4>
+  @if(this.errorMessage) {
+  <div class="alert alert-danger mt-3" role="alert">
+    {{ errorMessage }}
+  </div>
+  }
+  <div class="mb-3">
+    <label for="name">Name</label>
+    <input
+      id="name"
+      class="form-control"
+      formControlName="name"
+      type="text"
+      [class.is-invalid]="
+        productForm.get('name')?.invalid && productForm.get('name')?.touched
+      "
+    />
+    @if(productForm.get("name")?.invalid && productForm.get("name")?.touched) {
+    <div class="text-danger">Name is required.</div>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label for="ingredients">Ingredients</label>
+    <textarea
+      id="ingredients"
+      class="form-control"
+      formControlName="ingredients"
+      type="text"
+      rows="3"
+    ></textarea>
+  </div>
+
+  <div class="form-check mb-3">
+    <label for="isVegan" class="form-check-label"> Is Vegan</label>
+    <input
+      id="isVegan"
+      class="form-check-input"
+      formControlName="isVegan"
+      type="checkbox"
+      [class.is-invalid]="
+        productForm.get('isVegan')?.invalid &&
+        productForm.get('isVegan')?.touched
+      "
+    />
+    @if(productForm.get("isVegan")?.invalid &&
+    productForm.get("isVegan")?.touched) {
+    <div class="text-danger">Is Vegan is required.</div>
+    }
+  </div>
+
+  <fieldset class="rounded border px-4 pt-4" formGroupName="nutritionalInfo">
+    <h5 class="text-center mb-1">Nutritional Info</h5>
+    <p class="text-center nutrition-info">(values per 100 grams)</p>
+
+    <div class="mb-3">
+      <label for="kcal">Kcal (g)</label>
+      <input
+        id="kcal"
+        class="form-control"
+        formControlName="kcal"
+        type="number"
+        [class.is-invalid]="
+          productForm.get('nutritionalInfo.kcal')?.invalid &&
+          productForm.get('nutritionalInfo.kcal')?.touched
+        "
+      />
+      @if(productForm.get("nutritionalInfo.kcal")?.invalid &&
+      productForm.get("nutritionalInfo.kcal")?.touched) {
+      <div class="text-danger">
+        Kcal is required and must be a number from range 0-900.
+      </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="protein">Protein (g)</label>
+      <input
+        id="protein"
+        class="form-control"
+        formControlName="protein"
+        type="number"
+        [class.is-invalid]="
+          productForm.get('nutritionalInfo.protein')?.invalid &&
+          productForm.get('nutritionalInfo.protein')?.touched
+        "
+      />
+      @if(productForm.get("nutritionalInfo.protein")?.invalid &&
+      productForm.get("nutritionalInfo.protein")?.touched) {
+      <div class="text-danger">
+        Protein is required and must be a number from range 0-100.
+      </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="fat">Fat (g)</label>
+      <input
+        id="fat"
+        class="form-control"
+        formControlName="fat"
+        type="number"
+        [class.is-invalid]="
+          productForm.get('nutritionalInfo.fat')?.invalid &&
+          productForm.get('nutritionalInfo.fat')?.touched
+        "
+      />
+      @if (productForm.get("nutritionalInfo.fat")?.invalid &&
+      productForm.get("nutritionalInfo.fat")?.touched) {
+      <div class="text-danger">
+        Fat is required and must be a number from range 0-100.
+      </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="carbohydrate">Carbohydrates (g)</label>
+      <input
+        id="carbohydrate"
+        class="form-control"
+        formControlName="carbohydrate"
+        type="number"
+        [class.is-invalid]="
+          productForm.get('nutritionalInfo.carbohydrate')?.invalid &&
+          productForm.get('nutritionalInfo.carbohydrate')?.touched
+        "
+      />
+      @if(productForm.get("nutritionalInfo.carbohydrate")?.invalid &&
+      productForm.get("nutritionalInfo.carbohydrate")?.touched) {
+      <div class="text-danger">
+        Carbohydrate is required and must be a number from range 0-100.
+      </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="fiber">Fiber (g)</label>
+      <input
+        id="fiber"
+        class="form-control"
+        formControlName="fiber"
+        type="number"
+        [class.is-invalid]="
+          productForm.get('nutritionalInfo.fiber')?.invalid &&
+          productForm.get('nutritionalInfo.fiber')?.touched
+        "
+      />
+      @if(productForm.get("nutritionalInfo.fiber")?.invalid &&
+      productForm.get("nutritionalInfo.fiber")?.touched) {
+      <div class="text-danger">
+        Fiber is required and must be a number from range 0-100.
+      </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="sodium">Sodium (mg)</label>
+      <input
+        id="sodium"
+        class="form-control"
+        formControlName="sodium"
+        type="number"
+        [class.is-invalid]="
+          productForm.get('nutritionalInfo.sodium')?.invalid &&
+          productForm.get('nutritionalInfo.sodium')?.touched
+        "
+      />
+      @if(productForm.get("nutritionalInfo.sodium")?.invalid &&
+      productForm.get("nutritionalInfo.sodium")?.touched) {
+      <div class="text-danger">
+        Sodium is required and must be a positive number.
+      </div>
+      }
+    </div>
+  </fieldset>
+
+  <button
+    type="submit"
+    class="btn btn-primary mt-3 w-100"
+    [disabled]="productForm.invalid"
+  >
+    {{ isEditMode ? "Update" : "Add" }} Product
+  </button>
+</form>
