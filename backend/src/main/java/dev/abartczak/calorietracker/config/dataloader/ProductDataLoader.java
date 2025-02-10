@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Component
 public class ProductDataLoader implements CommandLineRunner {
@@ -23,7 +25,8 @@ public class ProductDataLoader implements CommandLineRunner {
                 4.7,
                 0.0,
                 0.05,
-                false
+                false,
+                LocalDateTime.now()
         );
 
         Product product2 = new Product(
@@ -36,7 +39,8 @@ public class ProductDataLoader implements CommandLineRunner {
                 32.0,
                 7.0,
                 0.01,
-                true
+                true,
+                LocalDateTime.now()
         );
 
         Product product3 = new Product(
@@ -49,7 +53,8 @@ public class ProductDataLoader implements CommandLineRunner {
                 41.0,
                 6.0,
                 0.55,
-                true
+                true,
+                LocalDateTime.now()
         );
 
         Product product4 = new Product(
@@ -62,7 +67,8 @@ public class ProductDataLoader implements CommandLineRunner {
                 14.0,
                 2.4,
                 0.0,
-                true
+                true,
+                LocalDateTime.now()
         );
 
         repository.save(product1);

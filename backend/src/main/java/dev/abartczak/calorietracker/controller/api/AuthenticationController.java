@@ -22,6 +22,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
+        System.out.println(request.getPassword() + ", " + request.getEmail());
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
@@ -29,6 +30,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> login(
             @RequestBody AuthenticationRequest request
     ) {
+
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
