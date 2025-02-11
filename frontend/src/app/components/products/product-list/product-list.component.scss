@@ -1,0 +1,10 @@
+.table-container {
+  overflow-x: auto;
+}
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: darken(#faf9fd, 3%);
+}

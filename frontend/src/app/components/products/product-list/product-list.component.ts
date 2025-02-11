@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-product-list',
   standalone: true,
@@ -32,12 +32,13 @@ import { MatButtonModule } from '@angular/material/button';
     MatSelectModule,
     MatCheckboxModule,
     MatButtonModule,
+
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
-  displayedColumns: string[] = [
+  public displayedColumns: string[] = [
     'name',
     'kcal',
     'protein',
@@ -47,27 +48,27 @@ export class ProductListComponent implements OnInit {
     'createdAt',
   ];
 
-  dataSource: MatTableDataSource<Product>;
-  nameFilter: string = '';
-  veganFilter: string = '';
-  proteinFilter: boolean = false;
-  carbsFilter: number = 0;
-  proteinRangeFilter: number = 0;
-  fatFilter: number = 0;
-  showAdvancedFilters: boolean = false;
+  public dataSource: MatTableDataSource<Product>;
+  public nameFilter: string = '';
+  public veganFilter: string = '';
+  public proteinFilter: boolean = false;
+  public carbsFilter: number = 0;
+  public proteinRangeFilter: number = 0;
+  public fatFilter: number = 0;
+  public showAdvancedFilters: boolean = false;
 
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) public sort!: MatSort;
+  @ViewChild(MatPaginator) public paginator!: MatPaginator;
 
-  constructor(private productService: ProductsService) {
+  public constructor(private productService: ProductsService, private router: Router) {
     this.dataSource = new MatTableDataSource<Product>([]);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadProducts();
   }
 
-  loadProducts(): void {
+  public loadProducts(): void {
     this.productService.getAllProducts().subscribe((products) => {
       this.dataSource.data = products;
       this.dataSource.filterPredicate = this.createFilter();
@@ -75,7 +76,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  createFilter(): (data: Product, filter: string) => boolean {
+  public createFilter(): (data: Product, filter: string) => boolean {
     return (data: Product, filter: string): boolean => {
       const searchString = JSON.parse(filter);
       const matchesName = data.name.toLowerCase().includes(searchString.name.toLowerCase());
@@ -89,7 +90,7 @@ export class ProductListComponent implements OnInit {
     };
   }
 
-  applyFilter(): void {
+  public applyFilter(): void {
     const filterValue = JSON.stringify({
       name: this.nameFilter,
       vegan: this.veganFilter,
@@ -101,10 +102,11 @@ export class ProductListComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  sortData(sort: Sort): void {
+  public sortData(sort: Sort): void {
     const data = this.dataSource.data.slice();
     if (!sort.active || sort.direction === '') {
       this.dataSource.data = data;
+
       return;
     }
 
@@ -122,18 +124,22 @@ export class ProductListComponent implements OnInit {
         case 'carbohydrate':
           return compare(a.carbohydrate, b.carbohydrate, isAsc);
         case 'createdAt':
-          return compare(a.createdAt, b.createdAt, isAsc);
+          return compare(a.createdAt || "", b.createdAt || "", isAsc);
         default:
           return 0;
       }
     });
   }
 
-  toggleAdvancedFilters(): void {
+  public toggleAdvancedFilters(): void {
     this.showAdvancedFilters = !this.showAdvancedFilters;
+  }
+
+  public navigateToProductDetails(productId: string): void {
+    this.router.navigate(['/admin/products', productId]);
   }
 }
 
-function compare(a: any, b: any, isAsc: boolean): number {
+function compare(a: number | string, b: number | string, isAsc: boolean): number {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

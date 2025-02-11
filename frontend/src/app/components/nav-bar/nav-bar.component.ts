@@ -15,21 +15,21 @@ export class NavBarComponent implements OnInit, OnDestroy {
   protected isAdmin: boolean = false;
   private subscription!: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {
+  public constructor(private authService: AuthService, private router: Router) {
   }
 
-  ngOnInit(): void {
-    this.subscription = this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+  public ngOnInit(): void {
+    this.subscription = this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
       this.isAdmin = this.authService.isAdmin();
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  logout() {
+  public logout(): void {
     this.authService.logout();
     this.router.navigate(['/auth/sign-in']);
   }

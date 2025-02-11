@@ -13,15 +13,16 @@ export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  public constructor(private http: HttpClient) { }
 
 
-  login(authRequest: AuthRequest): Observable<{ token: string }> {
+  public login(authRequest: AuthRequest): Observable<{ token: string }> {
     console.log(authRequest, "authRequest");
+
     return this.http.post<{ token: string }>(`${this.API_URL}/login`, authRequest).pipe(
-      tap(response => {
-        localStorage.setItem('jwt', response.token)
-        const decodedToken: any = jwtDecode(response.token);
+      tap((response) => {
+        localStorage.setItem('jwt', response.token);
+        const decodedToken: { role: string } = jwtDecode(response.token);
         localStorage.setItem('role', decodedToken.role);
         this.isLoggedInSubject.next(true);
       }),
@@ -29,56 +30,59 @@ export class AuthService {
     );
   }
 
-  register(authRequest: AuthRequest): Observable<{ token: string }> {
+  public register(authRequest: AuthRequest): Observable<{ token: string }> {
     console.log(authRequest, "authRequest");
+
     return this.http.post<{ token: string }>(`${this.API_URL}/register`, authRequest).pipe(
-      tap(response => {
-        localStorage.setItem('jwt', response.token)
+      tap((response) => {
+        localStorage.setItem('jwt', response.token);
         this.isLoggedInSubject.next(true);
       }),
       catchError(this.handleRegisterError)
     );
   }
 
-  logout(): void {
+  public logout(): void {
     localStorage.removeItem('jwt');
     localStorage.removeItem('role');
     this.isLoggedInSubject.next(false);
   }
 
-  getToken(): string | null {
+  public getToken(): string | null {
     return localStorage.getItem('jwt');
   }
 
-  isLoggedIn(): boolean {
+  public isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
-  isAdmin(): boolean {
+  public isAdmin(): boolean {
     return this.getRole() === 'ADMIN';
   }
 
-  getRole(): string | null {
+  public getRole(): string | null {
     return localStorage.getItem('role');
   }
 
-  private handleLoginError(error: HttpErrorResponse) {
+  private handleLoginError(error: HttpErrorResponse): Observable<never> {
     console.log(error, "login error");
     if (error.status === 400) {
       return throwError(() => new Error('Invalid email or password.'));
     }
+
     return throwError(() => new Error('An error occurred during login.'));
   }
 
-  private handleRegisterError(error: HttpErrorResponse) {
+  private handleRegisterError(error: HttpErrorResponse): Observable<never> {
     console.log(error, "error");
     if (error.status === 409) {
       return throwError(() => new Error('Email not available.'));
     }
+
     return throwError(() => new Error('An error occurred during registration.'));
   }
 
-  refreshLoginStatus(): void {
+  public refreshLoginStatus(): void {
     this.isLoggedInSubject.next(this.isLoggedIn());
   }
 

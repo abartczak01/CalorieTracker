@@ -13,25 +13,25 @@ import { AuthRequest } from '../../../models/auth-request';
 })
 export class RegisterFormComponent {
 
-  errorMessage: string | null = null;
+  public errorMessage: string | null = null;
 
-  constructor(private authService: AuthService) { }
+  public constructor(private authService: AuthService) { }
 
-  registerForm: FormGroup<RegisterForm> = new FormGroup({
+  public registerForm = new FormGroup<RegisterForm>({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
-  })
+  });
 
-  saveForm() {
+  public saveForm(): void {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value as AuthRequest).subscribe({
         next: () => {
           this.errorMessage = null;
         },
-        error: (error) => {
+        error: (error: { message: string }) => {
           this.errorMessage = error.message;
         }
-      })
+      });
     }
   }
 }

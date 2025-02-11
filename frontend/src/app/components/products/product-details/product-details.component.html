@@ -1,1 +1,38 @@
-<p>product-details works!</p>
+@if(product){
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ product.name }}</mat-card-title>
+    <mat-card-subtitle>Product Details</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      <strong>Ingredients:</strong>
+      {{
+        product.ingredients
+          ? product.ingredients
+          : "Not available for this product"
+      }}
+    </p>
+    <p><strong>Calories:</strong> {{ product.kcal }} kcal</p>
+    <p><strong>Protein:</strong> {{ product.protein }}g</p>
+    <p><strong>Fat:</strong> {{ product.fat }}g</p>
+    <p><strong>Carbohydrate:</strong> {{ product.carbohydrate }}g</p>
+    <p><strong>Fiber:</strong> {{ product.fiber }}g</p>
+    <p><strong>Sodium:</strong> {{ product.sodium }}mg</p>
+    <p><strong>Vegan:</strong> {{ product.isVegan ? "Yes" : "No" }}</p>
+    <p><strong>Created At:</strong> {{ product.createdAt | date }}</p>
+  </mat-card-content>
+  @if(isAdmin){
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="editProduct()">
+      Edit
+    </button>
+    <button mat-raised-button color="warn" (click)="deleteProduct()">
+      Delete
+    </button>
+  </mat-card-actions>
+  }
+</mat-card>
+}

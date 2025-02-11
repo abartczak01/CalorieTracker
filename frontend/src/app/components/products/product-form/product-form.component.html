@@ -59,7 +59,7 @@
     <p class="text-center nutrition-info">(values per 100 grams)</p>
 
     <div class="mb-3">
-      <label for="kcal">Kcal (g)</label>
+      <label for="kcal">Energy (kcal)</label>
       <input
         id="kcal"
         class="form-control"
@@ -73,7 +73,7 @@
       @if(productForm.get("nutritionalInfo.kcal")?.invalid &&
       productForm.get("nutritionalInfo.kcal")?.touched) {
       <div class="text-danger">
-        Kcal is required and must be a number from range 0-900.
+        Energy is required and must be a number from range 0-900.
       </div>
       }
     </div>

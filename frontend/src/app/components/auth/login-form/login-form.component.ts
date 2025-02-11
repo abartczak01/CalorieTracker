@@ -14,16 +14,16 @@ import { AuthRequest } from '../../../models/auth-request';
 })
 export class LoginFormComponent {
 
-  errorMessage: string | null = null;
+  public errorMessage: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  public constructor(private authService: AuthService, private router: Router) { }
 
-  loginForm: FormGroup<LoginForm> = new FormGroup({
+  public loginForm = new FormGroup<LoginForm>({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
   });
 
-  saveForm(): void {
+  public saveForm(): void {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value as AuthRequest).subscribe({
         next: () => {
