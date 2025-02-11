@@ -9,7 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class AuthService {
 
-  private API_URL = 'http://localhost:8080/api/auth';
+  private API_URL = '/api/auth';
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
@@ -17,6 +17,7 @@ export class AuthService {
 
 
   login(authRequest: AuthRequest): Observable<{ token: string }> {
+    console.log(authRequest, "authRequest");
     return this.http.post<{ token: string }>(`${this.API_URL}/login`, authRequest).pipe(
       tap(response => {
         localStorage.setItem('jwt', response.token)
@@ -62,6 +63,7 @@ export class AuthService {
   }
 
   private handleLoginError(error: HttpErrorResponse) {
+    console.log(error, "login error");
     if (error.status === 400) {
       return throwError(() => new Error('Invalid email or password.'));
     }
@@ -69,6 +71,7 @@ export class AuthService {
   }
 
   private handleRegisterError(error: HttpErrorResponse) {
+    console.log(error, "error");
     if (error.status === 409) {
       return throwError(() => new Error('Email not available.'));
     }

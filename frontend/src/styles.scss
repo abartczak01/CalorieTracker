@@ -1,1 +1,9 @@
-// @import "node_modules/bootstrap/dist/css/bootstrap.min.css";
+html,
+body {
+  height: 100%;
+  // background-color: #eeebf5 !important;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
