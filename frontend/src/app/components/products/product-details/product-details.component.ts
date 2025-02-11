@@ -9,10 +9,11 @@ import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confir
 import { MatCardModule } from '@angular/material/card';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [MatCardModule, DatePipe, MatButtonModule],
+  imports: [MatCardModule, DatePipe, MatButtonModule, MatListModule],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
@@ -48,6 +49,9 @@ export class ProductDetailsComponent implements OnInit {
         }
       });
     }
+  }
+  public goBack(): void {
+    this.router.navigate(['/admin/products']);
   }
 
   public editProduct(): void {

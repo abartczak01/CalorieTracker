@@ -8,3 +8,15 @@
 .clickable-row:hover {
   background-color: darken(#faf9fd, 3%);
 }
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.search {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+}

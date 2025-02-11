@@ -1,75 +1,74 @@
 <div>
   <mat-card>
-    <mat-card-header>
-      <mat-card-title>Filters</mat-card-title>
+    <mat-card-header class="mb-3">
+      <mat-card-title>Search Products</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Search by Name</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Search by name"
-          [(ngModel)]="nameFilter"
-          (input)="applyFilter()"
-        />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Is Vegan</mat-label>
-        <mat-select [(ngModel)]="veganFilter" (selectionChange)="applyFilter()">
-          <mat-option value="">All</mat-option>
-          <mat-option value="true">Vegan</mat-option>
-          <mat-option value="false">Non-Vegan</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="search">
+        <mat-form-field appearance="outline">
+          <mat-label>Search by Name</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Search by name"
+            [(ngModel)]="nameFilter"
+            (input)="applyFilter()"
+          />
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="toggleAdvancedFilters()"
+        >
+          {{ showAdvancedFilters ? "Hide" : "Show" }} Advanced Filters
+        </button>
+      </div>
 
-      <mat-checkbox [(ngModel)]="proteinFilter" (change)="applyFilter()">
-        High Protein (≥ 20g)
-      </mat-checkbox>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="toggleAdvancedFilters()"
-      >
-        {{ showAdvancedFilters ? "Hide" : "Show" }} Advanced Filters
-      </button>
       @if(showAdvancedFilters){
-
-      <div class="slider-container">
-        <mat-label>Carbs (≥ {{ carbsFilter }}g)</mat-label>
-        <mat-slider min="0" max="100" thumbLabel>
+      <p>Advanced filters</p>
+      <div class="filters">
+        <mat-form-field appearance="outline">
+          <mat-label>Min Energy</mat-label>
           <input
-            matSliderThumb
-            [(ngModel)]="carbsFilter"
+            matInput
+            type="number"
+            placeholder="Min"
+            [(ngModel)]="kcalFilter.min"
             (input)="applyFilter()"
           />
-        </mat-slider>
-      </div>
-
-      <div class="slider-container">
-        <mat-label>Protein (≥ {{ proteinRangeFilter }}g)</mat-label>
-        <mat-slider min="0" max="100" thumbLabel>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Max Energy</mat-label>
           <input
-            matSliderThumb
-            [(ngModel)]="proteinRangeFilter"
+            matInput
+            type="number"
+            placeholder="Max"
+            [(ngModel)]="kcalFilter.max"
             (input)="applyFilter()"
           />
-        </mat-slider>
-      </div>
-
-      <div class="slider-container">
-        <mat-label>Fat (≥ {{ fatFilter }}g)</mat-label>
-        <mat-slider min="0" max="100" thumbLabel>
-          <input
-            matSliderThumb
-            [(ngModel)]="fatFilter"
-            (input)="applyFilter()"
-          />
-        </mat-slider>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Is Vegan</mat-label>
+          <mat-select
+            [(ngModel)]="veganFilter"
+            (selectionChange)="applyFilter()"
+          >
+            <mat-option value="">All</mat-option>
+            <mat-option value="true">Vegan</mat-option>
+            <mat-option value="false">Non-Vegan</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-checkbox [(ngModel)]="highProteinFilter" (change)="applyFilter()">
+          High Protein (≥ 20g)
+        </mat-checkbox>
+        <button mat-raised-button color="warn" (click)="clearFilters()">
+          Clear Filters
+        </button>
       </div>
       }
     </mat-card-content>
   </mat-card>
+
   <div class="table-container">
     <table
       mat-table
@@ -126,6 +125,7 @@
       ></tr>
     </table>
   </div>
+
   <mat-paginator
     [pageSizeOptions]="[5, 10, 20, 50]"
     showFirstLastButtons

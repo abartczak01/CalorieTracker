@@ -6,11 +6,13 @@ import { Product } from '../../../models/product';
 import { ProductForm } from '../../../models/product-form';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
+import { NutritionInfo } from '../../../models/nutrition-info';
 
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatButtonModule],
   templateUrl: './product-form.component.html',
   styleUrl: './product-form.component.scss'
 })
@@ -85,15 +87,22 @@ export class ProductFormComponent implements OnInit {
       name: name ?? '',
       ingredients: ingredients ?? null,
       isVegan: isVegan ?? false,
-      kcal: nutritionalInfo?.kcal ?? 0,
-      protein: nutritionalInfo?.protein ?? 0,
-      fat: nutritionalInfo?.fat ?? 0,
-      carbohydrate: nutritionalInfo?.carbohydrate ?? 0,
-      fiber: nutritionalInfo?.fiber ?? 0,
-      sodium: nutritionalInfo?.sodium ?? 0,
+      ...this.getSanitizedNutritionInfo(nutritionalInfo as NutritionInfo),
       createdAt: null
     };
   }
+
+  private getSanitizedNutritionInfo(nutritionalInfo: NutritionInfo): NutritionInfo {
+    return {
+      kcal: nutritionalInfo.kcal,
+      protein: nutritionalInfo.protein,
+      fat: nutritionalInfo.fat,
+      carbohydrate: nutritionalInfo.carbohydrate,
+      fiber: nutritionalInfo.fiber,
+      sodium: nutritionalInfo.sodium
+    };
+  }
+
 
   private handleProductRequest(product: Product): Observable<Product> {
     return this.isEditMode && this.productId
@@ -105,5 +114,14 @@ export class ProductFormComponent implements OnInit {
     this.snackBar.open(message, 'Close', {
       duration: 3000,
     });
+  }
+
+  public goBack(): void {
+    if (this.isEditMode) {
+      this.router.navigate(['/admin/products', this.productId]);
+    } else {
+      this.router.navigate(['/admin/products']);
+    }
+
   }
 }

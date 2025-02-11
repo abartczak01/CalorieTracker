@@ -8,7 +8,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { MatListModule } from '@angular/material/list';
+import { ProductFilter } from '../../../models/product-filter';
 @Component({
   selector: 'app-product-list',
   standalone: true,
@@ -25,14 +26,13 @@ import { Router } from '@angular/router';
     FormsModule,
     CommonModule,
     MatPaginatorModule,
-    MatSliderModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
     MatButtonModule,
-
+    MatListModule,
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
@@ -51,16 +51,17 @@ export class ProductListComponent implements OnInit {
   public dataSource: MatTableDataSource<Product>;
   public nameFilter: string = '';
   public veganFilter: string = '';
-  public proteinFilter: boolean = false;
-  public carbsFilter: number = 0;
-  public proteinRangeFilter: number = 0;
-  public fatFilter: number = 0;
+  public highProteinFilter: boolean = false;
+  public kcalFilter: { min: number; max: number } = { min: 0, max: 1000 };
   public showAdvancedFilters: boolean = false;
 
   @ViewChild(MatSort) public sort!: MatSort;
   @ViewChild(MatPaginator) public paginator!: MatPaginator;
 
-  public constructor(private productService: ProductsService, private router: Router) {
+  public constructor(
+    private productService: ProductsService,
+    private router: Router
+  ) {
     this.dataSource = new MatTableDataSource<Product>([]);
   }
 
@@ -78,57 +79,53 @@ export class ProductListComponent implements OnInit {
 
   public createFilter(): (data: Product, filter: string) => boolean {
     return (data: Product, filter: string): boolean => {
-      const searchString = JSON.parse(filter);
-      const matchesName = data.name.toLowerCase().includes(searchString.name.toLowerCase());
-      const matchesVegan = searchString.vegan === '' || data.isVegan.toString() === searchString.vegan;
+      const searchString = JSON.parse(filter) as ProductFilter;
+      const matchesName = data.name
+        .toLowerCase()
+        .includes(searchString.name.toLowerCase());
+      const matchesVegan =
+        searchString.vegan === '' ||
+        data.isVegan.toString() === searchString.vegan;
       const matchesProtein = !searchString.protein || data.protein >= 20;
-      const matchesCarbs = data.carbohydrate >= searchString.carbs;
-      const matchesProteinRange = data.protein >= searchString.proteinRange;
-      const matchesFat = data.fat >= searchString.fat;
+      const matchesKcal =
+        data.kcal >= searchString.kcal.min && data.kcal <= searchString.kcal.max;
 
-      return matchesName && matchesVegan && matchesProtein && matchesCarbs && matchesProteinRange && matchesFat;
+      return matchesName && matchesVegan && matchesProtein && matchesKcal;
     };
   }
 
+  public validateCaloriesRange(): void {
+    if (this.kcalFilter.min > this.kcalFilter.max) {
+      const temp = this.kcalFilter.min;
+      this.kcalFilter.min = this.kcalFilter.max;
+      this.kcalFilter.max = temp;
+    }
+  }
+
   public applyFilter(): void {
+    this.validateCaloriesRange();
     const filterValue = JSON.stringify({
       name: this.nameFilter,
       vegan: this.veganFilter,
-      protein: this.proteinFilter,
-      carbs: this.carbsFilter,
-      proteinRange: this.proteinRangeFilter,
-      fat: this.fatFilter,
+      protein: this.highProteinFilter,
+      kcal: this.kcalFilter,
     });
     this.dataSource.filter = filterValue;
   }
 
-  public sortData(sort: Sort): void {
-    const data = this.dataSource.data.slice();
-    if (!sort.active || sort.direction === '') {
-      this.dataSource.data = data;
+  private getSortValue(a: Product, b: Product, sort: Sort): number {
+    const isAsc = sort.direction === 'asc';
+    const field = sort.active as keyof Product;
 
-      return;
+    if (field in a && field in b) {
+      return compare(a[field] as string | number, b[field] as string | number, isAsc);
     }
 
-    this.dataSource.data = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'name':
-          return compare(a.name, b.name, isAsc);
-        case 'kcal':
-          return compare(a.kcal, b.kcal, isAsc);
-        case 'protein':
-          return compare(a.protein, b.protein, isAsc);
-        case 'fat':
-          return compare(a.fat, b.fat, isAsc);
-        case 'carbohydrate':
-          return compare(a.carbohydrate, b.carbohydrate, isAsc);
-        case 'createdAt':
-          return compare(a.createdAt || "", b.createdAt || "", isAsc);
-        default:
-          return 0;
-      }
-    });
+    return 0;
+  }
+
+  public sortData(sort: Sort): void {
+    this.dataSource.data = this.dataSource.data.slice().sort((a, b) => this.getSortValue(a, b, sort));
   }
 
   public toggleAdvancedFilters(): void {
@@ -137,6 +134,13 @@ export class ProductListComponent implements OnInit {
 
   public navigateToProductDetails(productId: string): void {
     this.router.navigate(['/admin/products', productId]);
+  }
+  public clearFilters(): void {
+    this.nameFilter = '';
+    this.veganFilter = '';
+    this.highProteinFilter = false;
+    this.kcalFilter = { min: 0, max: 1000 };
+    this.applyFilter();
   }
 }
 
