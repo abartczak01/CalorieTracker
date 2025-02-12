@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product } from '../../../models/product';
+import { Product } from '../../../models/product/product';
 import { AuthService } from '../../../services/auth/auth.service';
 import { ProductsService } from '../../../services/products/products.service';
 import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';

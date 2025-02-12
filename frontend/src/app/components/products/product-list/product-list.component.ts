@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Product } from '../../../models/product';
+import { Product } from '../../../models/product/product';
 import { ProductsService } from '../../../services/products/products.service';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,7 +16,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
-import { ProductFilter } from '../../../models/product-filter';
+import { ProductFilter } from '../../../models/product/product-filter';
 @Component({
   selector: 'app-product-list',
   standalone: true,

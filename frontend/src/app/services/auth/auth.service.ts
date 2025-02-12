@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthRequest } from '../../models/auth-request';
+import { AuthRequest } from '../../models/auth/auth-request';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
@@ -9,7 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class AuthService {
 
-  private API_URL = '/api/auth';
+  private readonly apiUrl = '/api/auth';
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
@@ -19,10 +19,11 @@ export class AuthService {
   public login(authRequest: AuthRequest): Observable<{ token: string }> {
     console.log(authRequest, "authRequest");
 
-    return this.http.post<{ token: string }>(`${this.API_URL}/login`, authRequest).pipe(
+    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, authRequest).pipe(
       tap((response) => {
         localStorage.setItem('jwt', response.token);
         const decodedToken: { role: string } = jwtDecode(response.token);
+
         localStorage.setItem('role', decodedToken.role);
         this.isLoggedInSubject.next(true);
       }),
@@ -33,7 +34,7 @@ export class AuthService {
   public register(authRequest: AuthRequest): Observable<{ token: string }> {
     console.log(authRequest, "authRequest");
 
-    return this.http.post<{ token: string }>(`${this.API_URL}/register`, authRequest).pipe(
+    return this.http.post<{ token: string }>(`${this.apiUrl}/register`, authRequest).pipe(
       tap((response) => {
         localStorage.setItem('jwt', response.token);
         this.isLoggedInSubject.next(true);

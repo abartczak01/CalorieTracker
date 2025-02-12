@@ -7,6 +7,9 @@ import { UserListComponent } from './components/users/user-list/user-list.compon
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
 import { ProductListComponent } from './components/products/product-list/product-list.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
+import { userGuard } from './guards/user.guard';
+import { DailyMenuComponent } from './components/daily-menu/daily-menu.component';
+import { UserProfileComponent } from './components/users/user-profile/user-profile.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +23,16 @@ export const routes: Routes = [
         path: 'sign-up',
         component: RegisterFormComponent,
       }
+    ]
+  },
+  {
+    path: 'user',
+    canActivate: [userGuard],
+    children: [
+      { path: "", redirectTo: "/user/daily-menus", pathMatch: "full" },
+      { path: "daily-menus", component: DailyMenuComponent },
+      { path: "daily-menus/:date", component: DailyMenuComponent },
+      { path: "profile", component: UserProfileComponent }
     ]
   },
   {
@@ -60,7 +73,7 @@ export const routes: Routes = [
       },
       {
         path: "",
-        redirectTo: "dashboard",
+        redirectTo: "products",
         pathMatch: "full"
       }
     ]

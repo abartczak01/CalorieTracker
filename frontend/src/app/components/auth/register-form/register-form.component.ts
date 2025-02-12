@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service';
-import { RegisterForm } from '../../../models/register-form';
-import { AuthRequest } from '../../../models/auth-request';
+import { RegisterForm } from '../../../models/auth/register-form';
+import { AuthRequest } from '../../../models/auth/auth-request';
 
 @Component({
   selector: 'app-register-form',

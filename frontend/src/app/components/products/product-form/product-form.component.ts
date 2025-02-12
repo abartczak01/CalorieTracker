@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductsService } from '../../../services/products/products.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product } from '../../../models/product';
-import { ProductForm } from '../../../models/product-form';
+import { Product } from '../../../models/product/product';
+import { ProductForm } from '../../../models/product/product-form';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import { NutritionInfo } from '../../../models/nutrition-info';
+import { NutritionInfo } from '../../../models/product/nutrition-info';
 
 @Component({
   selector: 'app-product-form',
