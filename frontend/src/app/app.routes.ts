@@ -10,6 +10,7 @@ import { ProductDetailsComponent } from './components/products/product-details/p
 import { userGuard } from './guards/user.guard';
 import { DailyMenuComponent } from './components/daily-menu/daily-menu.component';
 import { UserProfileComponent } from './components/users/user-profile/user-profile.component';
+import { UserLayoutComponent } from './components/users/user-layout/user-layout.component';
 
 export const routes: Routes = [
   {
@@ -28,10 +29,10 @@ export const routes: Routes = [
   {
     path: 'user',
     canActivate: [userGuard],
+    component: UserLayoutComponent,
     children: [
       { path: "", redirectTo: "/user/daily-menus", pathMatch: "full" },
       { path: "daily-menus", component: DailyMenuComponent },
-      { path: "daily-menus/:date", component: DailyMenuComponent },
       { path: "profile", component: UserProfileComponent }
     ]
   },

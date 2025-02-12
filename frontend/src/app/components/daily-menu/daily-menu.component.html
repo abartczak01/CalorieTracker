@@ -1,1 +1,18 @@
-<p>daily-menu works!</p>
+<mat-card appearance="outlined">
+  <mat-card-actions class="date-header">
+    <mat-card-title class="title">Your Daily Menu For: </mat-card-title>
+    <mat-card class="date-picker" appearance="outlined">
+      <button mat-icon-button (click)="changeDay(-1)">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <span class="date">{{ selectedDate | date : "EEEE, MMMM d, y" }}</span>
+      <button mat-icon-button (click)="changeDay(1)">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+
+      <button mat-icon-button color="primary" (click)="openDialog()">
+        <mat-icon>date_range</mat-icon>
+      </button>
+    </mat-card>
+  </mat-card-actions>
+</mat-card>
