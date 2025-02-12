@@ -8,7 +8,7 @@ import { ProductFormComponent } from './components/products/product-form/product
 import { ProductListComponent } from './components/products/product-list/product-list.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { userGuard } from './guards/user.guard';
-import { DailyMenuComponent } from './components/daily-menu/daily-menu.component';
+import { DailyMenuComponent } from './components/daily-menu-related/daily-menu/daily-menu.component';
 import { UserProfileComponent } from './components/users/user-profile/user-profile.component';
 import { UserLayoutComponent } from './components/users/user-layout/user-layout.component';
 

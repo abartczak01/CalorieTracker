@@ -10,12 +10,13 @@ import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DatepickerDialogComponent } from '../datepicker-dialog/datepicker-dialog.component';
-import { DailyMenuService } from '../../services/daily-menu/daily-menu.service';
-
+import { DailyMenuService } from '../../../services/daily-menu/daily-menu.service';
+import { DailyMenu } from '../../../models/daily-menu/daily-menu';
+import { MealsComponent } from '../meals/meals.component';
 @Component({
   selector: 'app-daily-menu',
   standalone: true,
-  imports: [DatePipe, MatIconModule, MatButtonModule, MatCardModule, MatDatepickerModule, MatInputModule, MatFormFieldModule],
+  imports: [MealsComponent, DatePipe, MatIconModule, MatButtonModule, MatCardModule, MatDatepickerModule, MatInputModule, MatFormFieldModule],
   templateUrl: './daily-menu.component.html',
   providers: [provideNativeDateAdapter()],
   styleUrl: './daily-menu.component.scss'
@@ -23,9 +24,9 @@ import { DailyMenuService } from '../../services/daily-menu/daily-menu.service';
 export class DailyMenuComponent implements OnInit {
   protected selectedDate: Date = new Date();
   public dialog = inject(MatDialog);
-
+  public dailyMenu: DailyMenu | null = null;
   public constructor(private route: ActivatedRoute, private router: Router, private dailyMenuService: DailyMenuService) { }
-
+  public errorMsg: string | null = '';
   public ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {
       const dateParam: string = params['date'] as string;
@@ -38,6 +39,38 @@ export class DailyMenuComponent implements OnInit {
         }
       }
     });
+    this.loadDailyMenu(this.selectedDate);
+  }
+
+  private createDailyMenu(date: string): void {
+    this.dailyMenuService.createDailyMenu(date).subscribe({
+      next: (dailyMenu: DailyMenu) => {
+        console.log('Daily menu created:', dailyMenu);
+        this.dailyMenu = { ...dailyMenu };
+        this.errorMsg = null;
+      },
+      error: () => {
+        this.errorMsg = 'Error creating daily menu';
+      }
+    });
+  }
+
+
+  private loadDailyMenu(date: Date): void {
+    const formattedDate = date.toISOString().split('T')[0];
+
+    this.dailyMenuService.getDailyMenuByDate(formattedDate).subscribe({
+      next: (dailyMenu: DailyMenu) => {
+        console.log('Daily menu for date:', formattedDate, dailyMenu);
+        this.dailyMenu = { ...dailyMenu };
+        this.errorMsg = null;
+      },
+      error: () => {
+        console.log(`No daily menu found for date: ${formattedDate}, creating a new one.`);
+
+        this.createDailyMenu(formattedDate);
+      }
+    });
   }
 
   protected updateDate(date: Date): void {
@@ -45,6 +78,7 @@ export class DailyMenuComponent implements OnInit {
       queryParams: { date: date.toISOString().split('T')[0] },
       queryParamsHandling: 'merge'
     });
+    this.loadDailyMenu(date);
   }
 
   public changeDay(offset: number): void {
@@ -63,6 +97,7 @@ export class DailyMenuComponent implements OnInit {
       if (result) {
         this.selectedDate = result;
         this.updateDate(this.selectedDate);
+        this.loadDailyMenu(this.selectedDate);
       }
     });
   }

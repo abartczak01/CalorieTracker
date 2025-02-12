@@ -1,0 +1,39 @@
+.meal-desc {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .mat-column-fiber,
+  .mat-column-sodium,
+  .to-hide {
+    display: none;
+  }
+}
+.nutrien {
+  text-align: center;
+}
+
+.title {
+  margin: 1rem 0;
+}
+
+:host ::ng-deep mat-expansion-panel.mat-expanded[disabled] {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  opacity: 1 !important;
+}
+
+:host ::ng-deep mat-expansion-panel[disabled] .mat-expansion-panel-header {
+  background-color: rgb(239, 243, 255) !important;
+  color: black !important;
+  cursor: default;
+}
+
+@media (max-width: 768px) {
+  .btn-text {
+    display: none;
+  }
+}
