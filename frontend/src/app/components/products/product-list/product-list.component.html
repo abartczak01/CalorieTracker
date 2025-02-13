@@ -15,6 +15,7 @@
             (input)="applyFilter()"
           />
         </mat-form-field>
+
         <button
           mat-raised-button
           color="primary"
@@ -62,9 +63,11 @@
         <mat-checkbox [(ngModel)]="highProteinFilter" (change)="applyFilter()">
           High Protein (≥ 20g)
         </mat-checkbox>
-        <button mat-raised-button color="warn" (click)="clearFilters()">
-          Clear Filters
-        </button>
+        <div>
+          <button mat-raised-button color="warn" (click)="clearFilters()">
+            Clear Filters
+          </button>
+        </div>
       </div>
       }
     </mat-card-content>
