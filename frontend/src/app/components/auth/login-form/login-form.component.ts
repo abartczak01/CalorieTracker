@@ -4,6 +4,7 @@ import { AuthService } from '../../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { LoginForm } from '../../../models/auth/login-form';
 import { AuthRequest } from '../../../models/auth/auth-request';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login-form',
@@ -16,7 +17,7 @@ export class LoginFormComponent {
 
   public errorMessage: string | null = null;
 
-  public constructor(private authService: AuthService, private router: Router) { }
+  public constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) { }
 
   public loginForm = new FormGroup<LoginForm>({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -28,7 +29,10 @@ export class LoginFormComponent {
       this.authService.login(this.loginForm.value as AuthRequest).subscribe({
         next: () => {
           this.errorMessage = null;
-          this.router.navigate(['/']);
+          this.router.navigate(['/user/daily-menus']);
+          this.snackBar.open("Successful login", 'Close', {
+            duration: 3000,
+          });
         },
         error: (error: { message: string }) => {
           this.errorMessage = error.message;
