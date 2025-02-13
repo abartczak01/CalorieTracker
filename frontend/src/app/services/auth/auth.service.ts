@@ -13,6 +13,7 @@ export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
+
   public constructor(private http: HttpClient) { }
 
 
@@ -58,13 +59,23 @@ export class AuthService {
     return this.getRole() === 'ADMIN';
   }
 
+  public getUserId(): number | null {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      return null;
+    }
+
+    return parseInt(userId, 10);
+  }
+
+
   public getRole(): string | null {
     const token = this.getToken();
     if (!token) {
       return null;
     }
     const decodedToken: { role: string } = jwtDecode(token);
-    
+
     return decodedToken.role;
   }
 
@@ -74,7 +85,7 @@ export class AuthService {
       return null;
     }
     const decodedToken: { sub: string } = jwtDecode(token);
-    
+
     return decodedToken.sub;
   }
 

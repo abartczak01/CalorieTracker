@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MealService } from '../../../services/meals/meal.service';
-import { ConfirmDeleteDialogComponent } from '../../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -55,9 +55,9 @@ export class MealsComponent {
 
   public deleteProductQuantity(quantityId: number): void {
 
-    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
-      data: { name: "Product from a Meal" }
+      data: { message: `Are you sure you want to delete this product from your meal?` }
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

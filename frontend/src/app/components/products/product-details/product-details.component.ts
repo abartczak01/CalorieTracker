@@ -5,11 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../../models/product/product';
 import { AuthService } from '../../../services/auth/auth.service';
 import { ProductsService } from '../../../services/products/products.service';
-import { ConfirmDeleteDialogComponent } from '../../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { MatCardModule } from '@angular/material/card';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-product-details',
   standalone: true,
@@ -62,9 +62,9 @@ export class ProductDetailsComponent implements OnInit {
 
   public deleteProduct(): void {
     if (this.product?.id) {
-      const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '350px',
-        data: { name: this.product.name }
+        data: { message: `Are you sure you want to delete ${this.product.name}?` }
       });
 
       dialogRef.afterClosed().subscribe((result) => {

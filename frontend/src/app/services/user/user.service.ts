@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { User } from '../../models/user/user';
 import { UpdateUserRequest } from '../../models/user/update-user-request';
 import { AuthService } from '../auth/auth.service';
@@ -28,7 +28,16 @@ export class UserService {
 
   public updateUser(id: number, authRequest: AuthRequest, updateUserRequest: UpdateUserRequest): Observable<User> {
     return this.authService.login(authRequest).pipe(
-      switchMap(() => this.http.patch<User>(`${this.apiUrl}/${id}`, updateUserRequest))
+      switchMap(() => {
+        return this.http.put<User>(`${this.apiUrl}/${id}`, updateUserRequest).pipe(
+          catchError((error) => {
+            return throwError(() => error);
+          })
+        );
+      }),
+      catchError((error) => {
+        return throwError(() => error);
+      })
     );
   }
 }

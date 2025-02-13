@@ -1,1 +1,21 @@
-<p>user-profile works!</p>
+@if(user){
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>User Profile</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Created At:</strong> {{ user.createdAt | date }}</p>
+  </mat-card-content>
+</mat-card>
+<app-change-password-form
+  (passwordChange)="onChangePassword($event)"
+></app-change-password-form>
+
+<app-change-email-form
+  (emailChange)="onChangeEmail($event)"
+  [currentEmail]="user.email"
+></app-change-email-form>
+
+}

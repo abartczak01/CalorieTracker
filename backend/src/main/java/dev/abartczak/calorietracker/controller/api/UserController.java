@@ -17,13 +17,11 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or @userService.getCurrentUser().id == #id")
     ResponseEntity<User> getUserById(@PathVariable Long id) {
         User foundUser = userService.findById(id);
         return ResponseEntity.ok(foundUser);
@@ -31,14 +29,12 @@ public class UserController {
 
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or @userService.getCurrentUser().id == #id")
     public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or @userService.getCurrentUser().id == #id")
+    @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
         User updatedUser = userService.updateUser(id, updateUserRequest);
         return ResponseEntity.ok(updatedUser);
