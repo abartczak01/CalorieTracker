@@ -1,0 +1,27 @@
+<div class="header">
+  <button mat-icon-button (click)="goBack()" class="go-back-button">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  @if(mealName && date) {
+  <h5>{{ mealName }} | {{ date | date : "EEEE, MMMM d, y" }}</h5>
+  }
+</div>
+<div class="container">
+  <div class="left-side">
+    <app-product-list
+      [isForAdminPage]="false"
+      (productSelected)="onProductSelected($event)"
+    ></app-product-list>
+  </div>
+  <div class="right-side">
+    @if(product) {
+
+    <app-product-quantity-form
+      [mealId]="mealId"
+      [product]="product!"
+      (quantitySaved)="onQuantitySaved()"
+    ></app-product-quantity-form>
+    }
+    <app-product-details-small [product]="product"></app-product-details-small>
+  </div>
+</div>

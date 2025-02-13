@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Product } from '../../../models/product/product';
 import { ProductsService } from '../../../services/products/products.service';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -38,6 +38,7 @@ import { ProductFilter } from '../../../models/product/product-filter';
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
+  @Input() public isForAdminPage: boolean = false;
   public displayedColumns: string[] = [
     'name',
     'kcal',
@@ -47,7 +48,7 @@ export class ProductListComponent implements OnInit {
     'isVegan',
     'createdAt',
   ];
-
+  @Output() public productSelected = new EventEmitter<Product>();
   public dataSource: MatTableDataSource<Product>;
   public nameFilter: string = '';
   public veganFilter: string = '';
@@ -66,7 +67,11 @@ export class ProductListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    if (!this.isForAdminPage) {
+      this.displayedColumns = ['name', 'kcal',];
+    }
     this.loadProducts();
+
   }
 
   public loadProducts(): void {
@@ -132,8 +137,12 @@ export class ProductListComponent implements OnInit {
     this.showAdvancedFilters = !this.showAdvancedFilters;
   }
 
-  public navigateToProductDetails(productId: string): void {
-    this.router.navigate(['/admin/products', productId]);
+  public handleRowClick(product: Product): void {
+    if (this.isForAdminPage) {
+      this.router.navigate(['/admin/products', product.id]);
+    } else {
+      this.productSelected.emit(product);
+    }
   }
   public clearFilters(): void {
     this.nameFilter = '';

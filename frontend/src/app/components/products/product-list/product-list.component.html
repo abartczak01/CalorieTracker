@@ -20,12 +20,13 @@
           color="primary"
           (click)="toggleAdvancedFilters()"
         >
-          {{ showAdvancedFilters ? "Hide" : "Show" }} Advanced Filters
+          {{ showAdvancedFilters ? "Hide" : "Show" }} Filters
         </button>
       </div>
 
       @if(showAdvancedFilters){
       <p>Advanced filters</p>
+
       <div class="filters">
         <mat-form-field appearance="outline">
           <mat-label>Min Energy</mat-label>
@@ -86,7 +87,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Kcal</th>
         <td mat-cell *matCellDef="let product">{{ product.kcal }}</td>
       </ng-container>
-
+      @if(isForAdminPage){
       <ng-container matColumnDef="protein">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Protein</th>
         <td mat-cell *matCellDef="let product">{{ product.protein }}</td>
@@ -115,12 +116,12 @@
           {{ product.createdAt | date }}
         </td>
       </ng-container>
-
+      }
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
-        (click)="navigateToProductDetails(row.id)"
+        (click)="handleRowClick(row)"
         class="clickable-row"
       ></tr>
     </table>

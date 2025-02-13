@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../../models/product/product';
 import { AuthService } from '../../../services/auth/auth.service';
 import { ProductsService } from '../../../services/products/products.service';
-import { ConfirmDeleteDialogComponent } from '../../confirm-delete-dialog/confirm-delete-dialog.component';
+import { ConfirmDeleteDialogComponent } from '../../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { MatCardModule } from '@angular/material/card';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';

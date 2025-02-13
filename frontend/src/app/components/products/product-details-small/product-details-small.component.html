@@ -1,0 +1,45 @@
+<mat-card class="card" appearance="outlined">
+  @if(product){
+  <mat-card-header class="mb-3">
+    <mat-card-title>
+      {{ product.name }}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <p>
+          <strong>Ingredients:</strong>
+          {{
+            product.ingredients
+              ? product.ingredients
+              : "Not available for this product"
+          }}
+        </p>
+        <p><strong>Vegan:</strong> {{ product.isVegan ? "Yes" : "No" }}</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="mt-3" appearance="outlined">
+      <mat-card-content>
+        <mat-card-subtitle
+          ><strong>
+            Nutrition info (values per 100 grams)
+          </strong></mat-card-subtitle
+        >
+        <div class="nutriens">
+          <p><strong>Calories:</strong> {{ product.kcal }} kcal</p>
+          <p><strong>Protein:</strong> {{ product.protein }} g</p>
+          <p><strong>Fat:</strong> {{ product.fat }} g</p>
+          <p><strong>Carbs:</strong> {{ product.carbohydrate }} g</p>
+          <p><strong>Fiber:</strong> {{ product.fiber }} g</p>
+          <p><strong>Sodium:</strong> {{ product.sodium }} mg</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+  } @else {
+  <mat-card-content>
+    <p>Pick a product from the list to add</p>
+  </mat-card-content>
+  }
+</mat-card>

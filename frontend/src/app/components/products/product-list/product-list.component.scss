@@ -13,6 +13,9 @@
   display: flex;
   gap: 1rem;
   align-items: baseline;
+  @media (max-width: 1300px) {
+    flex-direction: column;
+  }
 }
 
 .search {

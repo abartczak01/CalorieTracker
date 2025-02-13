@@ -21,5 +21,8 @@
   {{ errorMsg }}
 </div>
 } @if(dailyMenu){
-<app-meals [dailyMenu]="dailyMenu"></app-meals>
+<app-meals
+  [dailyMenu]="dailyMenu"
+  (productDeleted)="loadDailyMenu(selectedDate)"
+></app-meals>
 }

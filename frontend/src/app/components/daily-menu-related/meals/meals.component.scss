@@ -1,6 +1,7 @@
 .meal-desc {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+  gap: 0.2rem;
   @media (max-width: 768px) {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -33,7 +34,21 @@
 }
 
 @media (max-width: 768px) {
-  .btn-text {
+  .big-text {
     display: none;
   }
+}
+@media (max-width: 1440px) {
+  .big-btn-text {
+    display: none;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.product-name {
+  display: flex;
+  align-items: center;
 }

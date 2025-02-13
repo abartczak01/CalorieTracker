@@ -9,7 +9,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DatepickerDialogComponent } from '../datepicker-dialog/datepicker-dialog.component';
+import { DatepickerDialogComponent } from '../../dialogs/datepicker-dialog/datepicker-dialog.component';
 import { DailyMenuService } from '../../../services/daily-menu/daily-menu.service';
 import { DailyMenu } from '../../../models/daily-menu/daily-menu';
 import { MealsComponent } from '../meals/meals.component';
@@ -56,7 +56,7 @@ export class DailyMenuComponent implements OnInit {
   }
 
 
-  private loadDailyMenu(date: Date): void {
+  public loadDailyMenu(date: Date): void {
     const formattedDate = date.toISOString().split('T')[0];
 
     this.dailyMenuService.getDailyMenuByDate(formattedDate).subscribe({
@@ -66,7 +66,6 @@ export class DailyMenuComponent implements OnInit {
         this.errorMsg = null;
       },
       error: () => {
-        console.log(`No daily menu found for date: ${formattedDate}, creating a new one.`);
 
         this.createDailyMenu(formattedDate);
       }
