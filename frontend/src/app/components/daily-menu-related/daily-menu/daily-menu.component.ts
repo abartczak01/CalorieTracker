@@ -1,22 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DatepickerDialogComponent } from '../../dialogs/datepicker-dialog/datepicker-dialog.component';
 import { DailyMenuService } from '../../../services/daily-menu/daily-menu.service';
 import { DailyMenu } from '../../../models/daily-menu/daily-menu';
 import { MealsComponent } from '../meals/meals.component';
+import { MaterialModule } from '../../../modules/material.module';
 @Component({
   selector: 'app-daily-menu',
   standalone: true,
-  imports: [MealsComponent, DatePipe, MatIconModule, MatButtonModule, MatCardModule, MatDatepickerModule, MatInputModule, MatFormFieldModule],
+  imports: [MealsComponent, DatePipe, MaterialModule],
   templateUrl: './daily-menu.component.html',
   providers: [provideNativeDateAdapter()],
   styleUrl: './daily-menu.component.scss'

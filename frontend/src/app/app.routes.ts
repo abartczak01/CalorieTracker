@@ -3,7 +3,6 @@ import { LoginFormComponent } from './components/auth/login-form/login-form.comp
 import { RegisterFormComponent } from './components/auth/register-form/register-form.component';
 import { adminGuard } from './guards/admin.guard';
 import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
-import { UserListComponent } from './components/users/user-list/user-list.component';
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
 import { userGuard } from './guards/user.guard';
 import { DailyMenuComponent } from './components/daily-menu-related/daily-menu/daily-menu.component';
@@ -43,15 +42,7 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [adminGuard],
     children: [
-      {
-        path: "users",
-        children: [
-          {
-            path: "",
-            component: UserListComponent,
-          },
-        ]
-      },
+
       {
         path: "products",
         children: [

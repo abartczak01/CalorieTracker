@@ -1,14 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Product } from '../../../models/product/product';
-import { MatCardModule } from '@angular/material/card';
-import { DatePipe } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
-
+import { MaterialModule } from '../../../modules/material.module';
 @Component({
   selector: 'app-product-details-small',
   standalone: true,
-  imports: [MatCardModule, DatePipe, MatButtonModule, MatListModule],
+  imports: [MaterialModule],
   templateUrl: './product-details-small.component.html',
   styleUrl: './product-details-small.component.scss'
 })

@@ -1,38 +1,25 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Product } from '../../../models/product/product';
 import { ProductsService } from '../../../services/products/products.service';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
-import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../../modules/material.module';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
-import { MatListModule } from '@angular/material/list';
 import { ProductFilter } from '../../../models/product/product-filter';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-product-list',
   standalone: true,
   imports: [
-    MatTableModule,
     MatSortModule,
     FormsModule,
-    CommonModule,
     MatPaginatorModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatButtonModule,
-    MatListModule,
+    MaterialModule
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',

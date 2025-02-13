@@ -24,23 +24,10 @@
           <a class="nav-link" href="/user/daily-menus">Daily Menus</a>
         </li>
         } @if(isAdmin && isLoggedIn){
-
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Admin
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/admin/users">Users</a></li>
-            <li>
-              <a class="dropdown-item" href="/admin/products">Products</a>
-            </li>
-          </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/products">Admin</a>
         </li>
+
         } @if(isLoggedIn){
 
         <li class="nav-item">

@@ -2,16 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductQuantity } from '../../../models/daily-menu/product-quantity';
 import { MealService } from '../../../services/meals/meal.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { Product } from '../../../models/product/product';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MaterialModule } from '../../../modules/material.module';
 @Component({
   selector: 'app-product-quantity-form',
   standalone: true,
-  imports: [MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [ReactiveFormsModule, MaterialModule],
   templateUrl: './product-quantity-form.component.html',
   styleUrl: './product-quantity-form.component.scss'
 })

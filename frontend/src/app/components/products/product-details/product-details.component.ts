@@ -5,15 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../../models/product/product';
 import { AuthService } from '../../../services/auth/auth.service';
 import { ProductsService } from '../../../services/products/products.service';
-import { MatCardModule } from '@angular/material/card';
 import { DatePipe } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
+import { MaterialModule } from '../../../modules/material.module';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [MatCardModule, DatePipe, MatButtonModule, MatListModule],
+  imports: [DatePipe, MaterialModule],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })

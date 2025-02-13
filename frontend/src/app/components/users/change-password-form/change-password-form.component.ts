@@ -1,14 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MaterialModule } from '../../../modules/material.module';
 @Component({
   selector: 'app-change-password-form',
   standalone: true,
-  imports: [MatExpansionModule, MatCardModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule],
+  imports: [ReactiveFormsModule, MaterialModule],
   templateUrl: './change-password-form.component.html',
   styleUrl: './change-password-form.component.scss'
 })

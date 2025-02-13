@@ -1,12 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DailyMenu } from '../../../models/daily-menu/daily-menu';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
 import { DecimalPipe } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
 import { MealService } from '../../../services/meals/meal.service';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,10 +8,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ProductQuantity } from '../../../models/daily-menu/product-quantity';
 import { EditProductQuantityDialogComponent } from '../../dialogs/edit-product-quantity-dialog/edit-product-quantity-dialog.component';
+import { MaterialModule } from '../../../modules/material.module';
 @Component({
   selector: 'app-meals',
   standalone: true,
-  imports: [MatMenuModule, MatIconModule, MatExpansionModule, MatCardModule, MatTableModule, DecimalPipe, MatButtonModule],
+  imports: [DecimalPipe, MaterialModule],
   templateUrl: './meals.component.html',
   styleUrl: './meals.component.scss'
 })

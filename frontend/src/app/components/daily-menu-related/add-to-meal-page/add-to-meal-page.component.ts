@@ -4,13 +4,12 @@ import { ProductDetailsSmallComponent } from '../../products/product-details-sma
 import { Product } from '../../../models/product/product';
 import { ProductListComponent } from '../../products/product-list/product-list.component';
 import { ProductQuantityFormComponent } from '../product-quantity-form/product-quantity-form.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MaterialModule } from '../../../modules/material.module';
 import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-add-to-meal-page',
   standalone: true,
-  imports: [DatePipe, MatIconModule, MatButtonModule, ProductDetailsSmallComponent, ProductListComponent, ProductQuantityFormComponent],
+  imports: [DatePipe, MaterialModule, ProductDetailsSmallComponent, ProductListComponent, ProductQuantityFormComponent],
   templateUrl: './add-to-meal-page.component.html',
   styleUrl: './add-to-meal-page.component.scss'
 })

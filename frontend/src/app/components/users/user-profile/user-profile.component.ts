@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../../models/user/user';
 import { AuthService } from '../../../services/auth/auth.service';
 import { UserService } from '../../../services/user/user.service';
-import { MatCardModule } from '@angular/material/card';
 import { ChangePasswordFormComponent } from '../change-password-form/change-password-form.component';
 import { DatePipe } from '@angular/common';
 import { AuthRequest } from '../../../models/auth/auth-request';
@@ -11,12 +10,12 @@ import { ChangeEmailFormComponent } from '../change-email-form/change-email-form
 import { Router } from '@angular/router';
 import { MatDialogModule, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MaterialModule } from '../../../modules/material.module';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [MatButtonModule, MatDialogModule, MatCardModule, ChangePasswordFormComponent, ChangeEmailFormComponent, DatePipe],
+  imports: [MatDialogModule, MaterialModule, ChangePasswordFormComponent, ChangeEmailFormComponent, DatePipe],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
 })
@@ -73,7 +72,7 @@ export class UserProfileComponent implements OnInit {
           error: () => {
             this.snackBar.open('An error occurred while changing the e-mail. Please try again.', 'Close', { duration: 6000 });
           }
-        })
+        });
       }
     });
   }
@@ -93,7 +92,7 @@ export class UserProfileComponent implements OnInit {
           }
         });
       }
-    })
+    });
   }
 
   private openConfirmationDialog(message: string): MatDialogRef<ConfirmationDialogComponent> {
