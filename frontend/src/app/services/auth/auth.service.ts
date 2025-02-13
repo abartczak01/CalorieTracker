@@ -17,14 +17,11 @@ export class AuthService {
 
 
   public login(authRequest: AuthRequest): Observable<{ token: string }> {
-    console.log(authRequest, "authRequest");
 
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, authRequest).pipe(
+    return this.http.post<{ token: string, userId: number }>(`${this.apiUrl}/login`, authRequest).pipe(
       tap((response) => {
         localStorage.setItem('jwt', response.token);
-        const decodedToken: { role: string } = jwtDecode(response.token);
-
-        localStorage.setItem('role', decodedToken.role);
+        localStorage.setItem('userId', response.userId.toString());
         this.isLoggedInSubject.next(true);
       }),
       catchError(this.handleLoginError)
@@ -32,11 +29,12 @@ export class AuthService {
   }
 
   public register(authRequest: AuthRequest): Observable<{ token: string }> {
-    console.log(authRequest, "authRequest");
 
-    return this.http.post<{ token: string }>(`${this.apiUrl}/register`, authRequest).pipe(
+    return this.http.post<{ token: string, userId: number }>(`${this.apiUrl}/register`, authRequest).pipe(
       tap((response) => {
         localStorage.setItem('jwt', response.token);
+        localStorage.setItem('userId', response.userId.toString());
+
         this.isLoggedInSubject.next(true);
       }),
       catchError(this.handleRegisterError)
@@ -45,7 +43,6 @@ export class AuthService {
 
   public logout(): void {
     localStorage.removeItem('jwt');
-    localStorage.removeItem('role');
     this.isLoggedInSubject.next(false);
   }
 
@@ -62,11 +59,27 @@ export class AuthService {
   }
 
   public getRole(): string | null {
-    return localStorage.getItem('role');
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+    const decodedToken: { role: string } = jwtDecode(token);
+    
+    return decodedToken.role;
+  }
+
+  public getEmail(): string | null {
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+    const decodedToken: { sub: string } = jwtDecode(token);
+    
+    return decodedToken.sub;
   }
 
   private handleLoginError(error: HttpErrorResponse): Observable<never> {
-    console.log(error, "login error");
+
     if (error.status === 400) {
       return throwError(() => new Error('Invalid email or password.'));
     }
@@ -75,7 +88,7 @@ export class AuthService {
   }
 
   private handleRegisterError(error: HttpErrorResponse): Observable<never> {
-    console.log(error, "error");
+
     if (error.status === 409) {
       return throwError(() => new Error('Email not available.'));
     }

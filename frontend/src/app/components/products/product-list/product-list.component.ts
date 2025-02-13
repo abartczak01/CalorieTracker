@@ -79,6 +79,7 @@ export class ProductListComponent implements OnInit {
       this.dataSource.data = products;
       this.dataSource.filterPredicate = this.createFilter();
       this.dataSource.paginator = this.paginator;
+
     });
   }
 

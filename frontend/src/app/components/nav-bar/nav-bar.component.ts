@@ -3,10 +3,11 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
@@ -15,6 +16,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   protected isLoggedIn: boolean = false;
   protected isAdmin: boolean = false;
   private subscription!: Subscription;
+  public email: string | null = null;
 
   public constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {
   }
@@ -23,6 +25,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
       this.isAdmin = this.authService.isAdmin();
+      this.email = this.authService.getEmail();
+
     });
   }
 

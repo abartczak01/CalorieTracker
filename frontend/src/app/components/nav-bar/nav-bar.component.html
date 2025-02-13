@@ -13,9 +13,12 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto gap-3">
-        @if(isLoggedIn){
-        <li class="nav-item">
-          <a class="nav-link" href="/user/profile">Profile</a>
+        @if(isLoggedIn && email){
+
+        <li class="nav-item profile">
+          <a class="nav-link profile-link" href="/user/profile"
+            ><mat-icon> account_circle </mat-icon>{{ email }}
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/user/daily-menus">Daily Menus</a>
