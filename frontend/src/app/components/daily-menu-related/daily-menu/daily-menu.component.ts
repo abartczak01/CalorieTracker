@@ -35,6 +35,7 @@ export class DailyMenuComponent implements OnInit {
         }
       }
     });
+
     this.loadDailyMenu(this.selectedDate);
   }
 

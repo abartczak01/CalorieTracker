@@ -3,7 +3,7 @@ import { Product } from '../../../models/product/product';
 import { ProductsService } from '../../../services/products/products.service';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../modules/material.module';
-import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
