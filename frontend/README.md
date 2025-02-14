@@ -1,27 +1,49 @@
-# CalorieTracker
+# Frontend - Calorie Tracker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.9.
+## Overview
 
-## Development server
+This is the frontend of the Calorie Tracker application, built using Angular. It provides a user-friendly interface for tracking calorie intake, managing meals, and viewing statistics.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Requirements
 
-## Code scaffolding
+Before running the frontend, ensure you have the following installed:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- [Node.js](https://nodejs.org/) (recommended version: 18.x or later)
+- [Angular CLI](https://angular.io/cli) (install globally with `npm install -g @angular/cli`)
 
-## Build
+## Technologies Used
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Angular 18.2.0**
+- **Angular Material** (UI components)
+- **Bootstrap 5.3.3** (styling framework)
+- **RxJS** (reactive programming)
+- **JWT-decode** (for handling authentication tokens)
 
-## Running unit tests
+## Installation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Navigate to the `frontend` directory:
+   ```sh
+   cd frontend
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-## Running end-to-end tests
+## Running the Frontend
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+To start the development server:
 
-## Further help
+```sh
+ng serve
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+By default, the application will be available at:
+
+```
+http://localhost:4200
+```
+
+## Proxy Configuration
+
+The frontend uses a proxy to communicate with the backend. Ensure the `proxy.conf.json` file is correctly set up to forward API requests.
