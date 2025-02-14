@@ -11,7 +11,8 @@ import { UserLayoutComponent } from './components/users/user-layout/user-layout.
 import { AddToMealPageComponent } from './components/daily-menu-related/add-to-meal-page/add-to-meal-page.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { ProductListPageComponent } from './components/products/product-list-page/product-list-page.component';
-
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 export const routes: Routes = [
   {
     path: 'auth',
@@ -74,7 +75,9 @@ export const routes: Routes = [
   },
   {
     path: "",
-    redirectTo: "auth/sign-in",
-    pathMatch: "full"
+    component: HomePageComponent
+  },
+  {
+    path: "**", component: PageNotFoundComponent
   }
 ];

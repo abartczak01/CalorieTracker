@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MaterialModule } from '../../../modules/material.module';
+import { ChangePasswordRequest } from '../../../models/user/change-password.request';
 @Component({
   selector: 'app-change-password-form',
   standalone: true,
@@ -9,15 +10,19 @@ import { MaterialModule } from '../../../modules/material.module';
   styleUrl: './change-password-form.component.scss'
 })
 export class ChangePasswordFormComponent {
-  @Output() protected passwordChange = new EventEmitter<{ oldPassword: string, newPassword: string }>();
+  @Output() protected passwordChange = new EventEmitter<ChangePasswordRequest>();
 
-  protected changePasswordForm: FormGroup;
+  protected changePasswordForm: FormGroup<{
+    oldPassword: FormControl<string>;
+    newPassword: FormControl<string>;
+    confirmNewPassword: FormControl<string>;
+  }>;
 
   public constructor() {
     this.changePasswordForm = new FormGroup({
-      oldPassword: new FormControl('', [Validators.required]),
-      newPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      confirmNewPassword: new FormControl('', [Validators.required, this.validateSamePassword])
+      oldPassword: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      newPassword: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(8)] }),
+      confirmNewPassword: new FormControl('', { nonNullable: true, validators: [Validators.required, this.validateSamePassword] })
     });
   }
 
@@ -30,10 +35,11 @@ export class ChangePasswordFormComponent {
 
   protected onSubmit(): void {
     if (this.changePasswordForm.valid) {
-      this.passwordChange.emit({
-        oldPassword: this.changePasswordForm.get('oldPassword')!.value as string,
-        newPassword: this.changePasswordForm.get('newPassword')!.value as string
-      });
+      const formValue: ChangePasswordRequest = {
+        oldPassword: this.changePasswordForm.get('oldPassword')!.value,
+        newPassword: this.changePasswordForm.get('newPassword')!.value
+      };
+      this.passwordChange.emit(formValue);
     }
   }
 }

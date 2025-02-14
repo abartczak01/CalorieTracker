@@ -18,7 +18,10 @@ export class ProductQuantityFormComponent implements OnInit {
   @Input() public productQuantity: ProductQuantity | null = null;
   @Output() public quantitySaved = new EventEmitter<void>();
 
-  public quantityForm!: FormGroup;
+  public quantityForm!: FormGroup<{
+    quantity: FormControl<number>;
+  }>;
+
   public isEditMode: boolean = false;
 
   public constructor(private mealService: MealService, private snackBar: MatSnackBar) { }
@@ -26,9 +29,9 @@ export class ProductQuantityFormComponent implements OnInit {
   public ngOnInit(): void {
     this.isEditMode = !!this.productQuantity;
     this.quantityForm = new FormGroup({
-      quantity: new FormControl(
-        this.productQuantity ? this.productQuantity.quantity : null,
-        [Validators.required, Validators.min(1), Validators.max(5000)]
+      quantity: new FormControl<number>(
+        this.productQuantity ? this.productQuantity.quantity : 1,
+        { nonNullable: true, validators: [Validators.required, Validators.min(1), Validators.max(5000)] }
       )
     });
   }

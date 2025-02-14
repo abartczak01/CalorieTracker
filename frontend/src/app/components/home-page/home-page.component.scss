@@ -1,0 +1,28 @@
+button {
+  font-size: 1.2rem;
+  padding: 1.5rem 3rem;
+}
+
+.card {
+  padding: 5rem 2rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    button {
+      width: min-content;
+      white-space: nowrap;
+    }
+  }
+}

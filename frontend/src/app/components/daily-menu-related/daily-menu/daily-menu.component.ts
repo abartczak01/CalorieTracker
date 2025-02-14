@@ -20,8 +20,9 @@ export class DailyMenuComponent implements OnInit {
   protected selectedDate: Date = new Date();
   public dialog = inject(MatDialog);
   public dailyMenu: DailyMenu | null = null;
-  public constructor(private route: ActivatedRoute, private router: Router, private dailyMenuService: DailyMenuService) { }
   public errorMsg: string | null = '';
+  public constructor(private route: ActivatedRoute, private router: Router, private dailyMenuService: DailyMenuService) { }
+
   public ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {
       const dateParam: string = params['date'] as string;

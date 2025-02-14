@@ -44,6 +44,7 @@ export class AuthService {
 
   public logout(): void {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('userId');
     this.isLoggedInSubject.next(false);
   }
 
