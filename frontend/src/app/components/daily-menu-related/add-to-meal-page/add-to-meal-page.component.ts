@@ -29,16 +29,16 @@ export class AddToMealPageComponent implements OnInit {
 
   }
 
-  public onProductSelected(product: Product): void {
+  protected onProductSelected(product: Product): void {
     this.product = product;
   }
 
-  public onQuantitySaved(): void {
+  protected onQuantitySaved(): void {
     this.goBack();
     this.product = null;
   }
 
-  public goBack(): void {
+  protected goBack(): void {
     this.router.navigate(['/user/daily-menus'], {
       queryParams: { date: this.date }
     });

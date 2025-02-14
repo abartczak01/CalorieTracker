@@ -108,10 +108,5 @@ export class AuthService {
     return throwError(() => new Error('An error occurred during registration.'));
   }
 
-  public refreshLoginStatus(): void {
-    this.isLoggedInSubject.next(this.isLoggedIn());
-  }
-
-
 }
 

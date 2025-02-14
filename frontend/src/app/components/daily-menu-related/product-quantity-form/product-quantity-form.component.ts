@@ -42,7 +42,7 @@ export class ProductQuantityFormComponent implements OnInit {
     });
   }
 
-  public onSubmit(): void {
+  protected onSubmit(): void {
     if (this.quantityForm.invalid) {
       return;
     }

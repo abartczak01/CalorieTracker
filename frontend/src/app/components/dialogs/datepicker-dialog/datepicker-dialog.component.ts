@@ -23,8 +23,8 @@ interface DatepickerDialogData {
   styleUrl: './datepicker-dialog.component.scss'
 })
 export class DatepickerDialogComponent {
-  public dialogRef = inject<MatDialogRef<DatepickerDialogComponent>>(MatDialogRef<DatepickerDialogComponent>);
-  public data = inject<DatepickerDialogData>(MAT_DIALOG_DATA);
+  protected dialogRef = inject<MatDialogRef<DatepickerDialogComponent>>(MatDialogRef<DatepickerDialogComponent>);
+  protected data = inject<DatepickerDialogData>(MAT_DIALOG_DATA);
 
   public readonly date = new FormControl(new Date());
 

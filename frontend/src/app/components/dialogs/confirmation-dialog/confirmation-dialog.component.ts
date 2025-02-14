@@ -15,11 +15,11 @@ export class ConfirmationDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: { message: string }
   ) { }
 
-  public onConfirm(): void {
+  protected onConfirm(): void {
     this.dialogRef.close(true);
   }
 
-  public onCancel(): void {
+  protected onCancel(): void {
     this.dialogRef.close(false);
   }
 }

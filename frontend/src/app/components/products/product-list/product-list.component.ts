@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 import { ProductFilter } from '../../../models/product/product-filter';
 import { MatTableDataSource } from '@angular/material/table';
+
 @Component({
   selector: 'app-product-list',
   standalone: true,
@@ -55,22 +56,21 @@ export class ProductListComponent implements OnInit {
 
   public ngOnInit(): void {
     if (!this.isForAdminPage) {
-      this.displayedColumns = ['name', 'kcal',];
+      this.displayedColumns = ['name', 'kcal'];
     }
     this.loadProducts();
-
   }
 
-  public loadProducts(): void {
+  private loadProducts(): void {
     this.productService.getAllProducts().subscribe((products) => {
       this.dataSource.data = products;
       this.dataSource.filterPredicate = this.createFilter();
+      this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-
     });
   }
 
-  public createFilter(): (data: Product, filter: string) => boolean {
+  private createFilter(): (data: Product, filter: string) => boolean {
     return (data: Product, filter: string): boolean => {
       const searchString = JSON.parse(filter) as ProductFilter;
       const matchesName = data.name
@@ -87,7 +87,7 @@ export class ProductListComponent implements OnInit {
     };
   }
 
-  public validateCaloriesRange(): void {
+  private validateCaloriesRange(): void {
     if (this.kcalFilter.min > this.kcalFilter.max) {
       const temp = this.kcalFilter.min;
       this.kcalFilter.min = this.kcalFilter.max;
@@ -95,7 +95,7 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  public applyFilter(): void {
+  protected applyFilter(): void {
     this.validateCaloriesRange();
     const filterValue = JSON.stringify({
       name: this.nameFilter,
@@ -106,41 +106,23 @@ export class ProductListComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  private getSortValue(a: Product, b: Product, sort: Sort): number {
-    const isAsc = sort.direction === 'asc';
-    const field = sort.active as keyof Product;
-
-    if (field in a && field in b) {
-      return compare(a[field] as string | number, b[field] as string | number, isAsc);
-    }
-
-    return 0;
-  }
-
-  public sortData(sort: Sort): void {
-    this.dataSource.data = this.dataSource.data.slice().sort((a, b) => this.getSortValue(a, b, sort));
-  }
-
-  public toggleAdvancedFilters(): void {
+  protected toggleAdvancedFilters(): void {
     this.showAdvancedFilters = !this.showAdvancedFilters;
   }
 
-  public handleRowClick(product: Product): void {
+  protected handleRowClick(product: Product): void {
     if (this.isForAdminPage) {
       this.router.navigate(['/admin/products', product.id]);
     } else {
       this.productSelected.emit(product);
     }
   }
-  public clearFilters(): void {
+
+  protected clearFilters(): void {
     this.nameFilter = '';
     this.veganFilter = '';
     this.highProteinFilter = false;
     this.kcalFilter = { min: 0, max: 1000 };
     this.applyFilter();
   }
-}
-
-function compare(a: number | string, b: number | string, isAsc: boolean): number {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

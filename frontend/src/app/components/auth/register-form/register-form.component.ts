@@ -23,7 +23,7 @@ export class RegisterFormComponent {
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
   });
 
-  public saveForm(): void {
+  protected saveForm(): void {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value as AuthRequest).subscribe({
         next: () => {

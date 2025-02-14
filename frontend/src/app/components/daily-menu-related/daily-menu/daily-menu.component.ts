@@ -52,7 +52,7 @@ export class DailyMenuComponent implements OnInit {
   }
 
 
-  public loadDailyMenu(date: Date): void {
+  protected loadDailyMenu(date: Date): void {
     const formattedDate = date.toISOString().split('T')[0];
 
     this.dailyMenuService.getDailyMenuByDate(formattedDate).subscribe({
@@ -76,13 +76,13 @@ export class DailyMenuComponent implements OnInit {
     this.loadDailyMenu(date);
   }
 
-  public changeDay(offset: number): void {
+  protected changeDay(offset: number): void {
     const newDate = new Date(this.selectedDate);
     newDate.setDate(newDate.getDate() + offset);
     this.updateDate(newDate);
   }
 
-  public openDialog(): void {
+  protected openDialog(): void {
     const dialogRef: MatDialogRef<DatepickerDialogComponent, Date | null> = this.dialog.open(DatepickerDialogComponent, {
       width: '500px',
       data: { selectedDate: this.selectedDate },

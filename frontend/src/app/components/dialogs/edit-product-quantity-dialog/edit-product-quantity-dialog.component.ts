@@ -18,11 +18,11 @@ export class EditProductQuantityDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: { productQuantity: ProductQuantity; product: Product; mealId: number }
   ) { }
 
-  public onQuantitySaved(): void {
+  protected onQuantitySaved(): void {
     this.dialogRef.close(true);
   }
 
-  public onCancel(): void {
+  protected onCancel(): void {
     this.dialogRef.close(false);
   }
 }

@@ -27,7 +27,7 @@ export class MealsComponent {
     private mealService: MealService,
     private dialog: MatDialog,) { }
 
-  public goToEditProductQuantity(productQuantity: ProductQuantity, mealId: number): void {
+  protected goToEditProductQuantity(productQuantity: ProductQuantity, mealId: number): void {
     console.log('Edit product quantity:', productQuantity);
     const dialogRef = this.dialog.open(EditProductQuantityDialogComponent, {
       width: '400px',
@@ -41,14 +41,14 @@ export class MealsComponent {
     });
   }
 
-  public goToAddProductQuantity(mealId: number): void {
+  protected goToAddProductQuantity(mealId: number): void {
     this.router.navigate(['user/daily-menus/add-to-meal', mealId], {
       state: { date: this.dailyMenu.date, mealName: this.dailyMenu.meals.find((m) => m.id === mealId)?.name }
     });
 
   }
 
-  public deleteProductQuantity(quantityId: number): void {
+  protected deleteProductQuantity(quantityId: number): void {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',

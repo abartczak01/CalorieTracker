@@ -24,7 +24,7 @@ export class LoginFormComponent {
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
   });
 
-  public saveForm(): void {
+  protected saveForm(): void {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value as AuthRequest).subscribe({
         next: () => {
