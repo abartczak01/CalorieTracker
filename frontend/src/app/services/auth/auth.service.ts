@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthRequest } from '../../models/auth/auth-request';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
@@ -24,8 +24,7 @@ export class AuthService {
         localStorage.setItem('jwt', response.token);
         localStorage.setItem('userId', response.userId.toString());
         this.isLoggedInSubject.next(true);
-      }),
-      catchError(this.handleLoginError)
+      })
     );
   }
 
@@ -37,8 +36,7 @@ export class AuthService {
         localStorage.setItem('userId', response.userId.toString());
 
         this.isLoggedInSubject.next(true);
-      }),
-      catchError(this.handleRegisterError)
+      })
     );
   }
 
@@ -88,24 +86,6 @@ export class AuthService {
     const decodedToken: { sub: string } = jwtDecode(token);
 
     return decodedToken.sub;
-  }
-
-  private handleLoginError(error: HttpErrorResponse): Observable<never> {
-
-    if (error.status === 400) {
-      return throwError(() => new Error('Invalid email or password.'));
-    }
-
-    return throwError(() => new Error('An error occurred during login.'));
-  }
-
-  private handleRegisterError(error: HttpErrorResponse): Observable<never> {
-
-    if (error.status === 409) {
-      return throwError(() => new Error('Email not available.'));
-    }
-
-    return throwError(() => new Error('An error occurred during registration.'));
   }
 
 }

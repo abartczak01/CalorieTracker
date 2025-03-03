@@ -155,7 +155,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{admin_token}}",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -186,7 +186,7 @@
 					"response": []
 				},
 				{
-					"name": "Post data",
+					"name": "create product",
 					"event": [
 						{
 							"listen": "test",
@@ -217,7 +217,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\n{\n  \"name\": \"Orange Juice 2\",\n  \"ingredients\": \"orange juice 100% from concentrated juice\",\n  \"kcal\": 45,\n  \"protein\": 0.7,\n  \"fat\": 0.1,\n  \"carbohydrate\": 10.4,\n  \"fiber\": 0.2,\n  \"sodium\": 0.01,\n  \"isVegan\": true\n}",
+							"raw": "\n{\n  \"name\": \"Orange Juice 2\",\n  \"ingredients\": \"orange juice 100% from concentrated juice\",\n   \"kcal\": 45,\n  \"protein\": 0.7,\n  \"fat\": 0.1,\n  \"carbohydrate\": 10.4,\n  \"fiber\": 0.2,\n  \"sodium\": 0.01,\n  \"isVegan\": true\n}\n\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -239,7 +239,7 @@
 					"response": []
 				},
 				{
-					"name": "Update data",
+					"name": "update product",
 					"event": [
 						{
 							"listen": "test",
@@ -270,7 +270,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Orange Juice Piatnica\",\n  \"ingredients\": null,\n  \"kcal\": null,\n  \"protein\": 2.5,\n  \"fat\": 3.2,\n  \"carbohydrate\": 4.5,\n  \"fiber\": 0.0,\n  \"sodium\": 0.05,\n  \"isVegan\": true\n}",
+							"raw": "{\n  \"name\": \"Milk Piątnica\",\n  \"ingredients\": null,\n  \"kcal\": 45,\n  \"protein\": 2.5,\n  \"fat\": 3.2,\n  \"carbohydrate\": 4.5,\n  \"fiber\": 0.0,\n  \"sodium\": 0.05,\n  \"isVegan\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -293,7 +293,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete data",
+					"name": "delete product",
 					"event": [
 						{
 							"listen": "test",
@@ -332,14 +332,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/products/admin/1",
+							"raw": "{{base_url}}/products/admin/5",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"products",
 								"admin",
-								"1"
+								"5"
 							]
 						},
 						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
@@ -359,7 +359,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{admin_token}}",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -387,7 +387,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{admin_token}}",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -395,13 +395,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/users/{{user_id}}",
+							"raw": "{{base_url}}/users/4",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"users",
-								"{{user_id}}"
+								"4"
 							]
 						}
 					},
@@ -420,11 +420,11 @@
 								}
 							]
 						},
-						"method": "PATCH",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"newPassword123\",\r\n    \"email\": \"test@example.com\"\r\n}",
+							"raw": "{\r\n    \"email\": \"agata.bartczak01@gmail.com\",\r\n    \"password\": \"admin123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -432,13 +432,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/users/{{user_id}}",
+							"raw": "{{base_url}}/users/2",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"users",
-								"{{user_id}}"
+								"2"
 							]
 						}
 					},
@@ -496,7 +496,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/meals/{{meal_id}}/product_quantities?productId=4&quantity=250",
+									"raw": "{{base_url}}/meals/{{meal_id}}/product_quantities?productId=4&quantity=209",
 									"host": [
 										"{{base_url}}"
 									],
@@ -512,7 +512,7 @@
 										},
 										{
 											"key": "quantity",
-											"value": "250"
+											"value": "209"
 										}
 									]
 								}
@@ -630,7 +630,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/daily_menus?date=2025-01-16",
+							"raw": "{{base_url}}/daily_menus?date=2025-02-12",
 							"host": [
 								"{{base_url}}"
 							],
@@ -640,7 +640,7 @@
 							"query": [
 								{
 									"key": "date",
-									"value": "2025-01-16"
+									"value": "2025-02-12"
 								}
 							]
 						}
@@ -690,14 +690,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/daily_menus/by-date/2025-01-16",
+							"raw": "{{base_url}}/daily_menus/by-date/2025-02-12",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"daily_menus",
 								"by-date",
-								"2025-01-16"
+								"2025-02-12"
 							]
 						}
 					},
@@ -771,7 +771,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"test@example.com\",\r\n  \"password\": \"password123\"\r\n}\r\n",
+							"raw": "{\r\n  \"email\": \"agata.bartczak01@gmail.com\",\r\n  \"password\": \"admin123\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -798,7 +798,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"password123\"\r\n}\r\n\r\n",
+							"raw": "{\r\n  \"email\": \"agata.bartczak01@gmail.com\",\r\n  \"password\": \"admin123\"\r\n}\r\n\r\n",
 							"options": {
 								"raw": {
 									"language": "json"

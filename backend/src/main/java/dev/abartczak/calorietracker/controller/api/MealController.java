@@ -18,8 +18,8 @@ public class MealController {
     @GetMapping("/product_quantities/{productQuantityId}")
     public ResponseEntity<ProductQuantityDTO> getProductQuantity(@PathVariable Long productQuantityId) {
         userService.ensureProductQuantityBelongsToCurrentUser(productQuantityId);
-
         ProductQuantityDTO response = mealService.getProductQuantityById(productQuantityId);
+
         return ResponseEntity.ok(response);
     }
 
@@ -28,7 +28,6 @@ public class MealController {
             @PathVariable Long mealId,
             @RequestParam Long productId,
             @RequestParam Integer quantity) {
-
         ProductQuantityDTO response = mealService.addProductQuantityToMeal(mealId, productId, quantity);
 
         return ResponseEntity.ok(response);
@@ -37,7 +36,7 @@ public class MealController {
 
     @DeleteMapping("/product_quantities/{productQuantityId}")
     public ResponseEntity<Void> removeProductQuantity(@PathVariable Long productQuantityId) {
-
+        userService.ensureProductQuantityBelongsToCurrentUser(productQuantityId);
         mealService.removeProductQuantity(productQuantityId);
 
         return ResponseEntity.noContent().build();
@@ -48,7 +47,7 @@ public class MealController {
     public ResponseEntity<ProductQuantityDTO> updateProductQuantity(
             @PathVariable Long productQuantityId,
             @RequestParam Integer quantity) {
-
+        userService.ensureProductQuantityBelongsToCurrentUser(productQuantityId);
         ProductQuantityDTO response = mealService.updateProductQuantity(productQuantityId, quantity);
 
         return ResponseEntity.ok(response);
