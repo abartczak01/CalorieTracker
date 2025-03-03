@@ -1,0 +1,47 @@
+.table-container {
+  overflow-x: auto;
+}
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 60%;
+}
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: darken(#faf9fd, 3%);
+}
+
+.filters {
+  display: flex;
+  gap: 0.3rem;
+  align-items: baseline;
+  @media (max-width: 1400px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.search {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.clear-filter-btn {
+  height: 3rem;
+}
+
+.paginator {
+  position: fixed;
+  bottom: 0;
+  border: 1px solid lightgray;
+  border-radius: 0.5rem;
+}
+
+.extra-row {
+  height: 4rem;
+}

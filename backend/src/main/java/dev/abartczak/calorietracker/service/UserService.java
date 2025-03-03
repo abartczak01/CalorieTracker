@@ -1,16 +1,13 @@
 package dev.abartczak.calorietracker.service;
 
-import dev.abartczak.calorietracker.domain.Meal;
 import dev.abartczak.calorietracker.domain.ProductQuantity;
 import dev.abartczak.calorietracker.domain.User;
 import dev.abartczak.calorietracker.domain.enums.Role;
 import dev.abartczak.calorietracker.dto.auth.request.UpdateUserRequest;
-import dev.abartczak.calorietracker.repository.MealRepository;
 import dev.abartczak.calorietracker.repository.ProductQuantityRepository;
 import dev.abartczak.calorietracker.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,12 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final MealRepository mealRepository;
     private final ProductQuantityRepository productQuantityRepository;
-
-    public User save(User user) {
-        return userRepository.save(user);
-    }
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -73,15 +65,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void ensureMealBelongsToCurrentUser(Long mealId) {
-        User currentUser = getCurrentUser();
-        Meal meal = mealRepository.findById(mealId)
-                .orElseThrow(() -> new IllegalArgumentException("Meal not found with id: " + mealId));
-
-        if (!meal.getDailyMenu().getUser().getId().equals(currentUser.getId())) {
-            throw new SecurityException("You are not authorized to modify this meal.");
-        }
-    }
 
     public void ensureProductQuantityBelongsToCurrentUser(Long productQuantityId) {
         User currentUser = getCurrentUser();
@@ -89,7 +72,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("ProductQuantity not found with id: " + productQuantityId));
 
         if (!productQuantity.getMeal().getDailyMenu().getUser().getId().equals(currentUser.getId())) {
-            throw new SecurityException("You are not authorized to modify this product quantity.");
+            throw new SecurityException("You are not authorized access this product quantity.");
         }
     }
 }

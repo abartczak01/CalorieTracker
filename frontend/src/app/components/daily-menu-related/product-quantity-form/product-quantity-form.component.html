@@ -1,0 +1,39 @@
+<mat-card class="form-card" appearance="outlined">
+  <mat-card-header class="form-card-header">
+    <mat-card-title>
+      <strong>
+        {{
+          isEditMode
+            ? "Edit " + productQuantity?.productName + " Quantity"
+            : "Add " + product.name + " to the meal"
+        }}
+      </strong>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="quantityForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Quantity (g/ml)</mat-label>
+        <input
+          matInput
+          id="quantity"
+          type="number"
+          formControlName="quantity"
+        />
+        @if(quantityForm.get('quantity')?.invalid &&
+        quantityForm.get('quantity')?.touched) {
+        <mat-error>Quantity must be a number from range 0-5000.</mat-error>
+        }
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onSubmit()"
+        [disabled]="quantityForm.invalid"
+      >
+        {{ isEditMode ? "Update" : "Add" }}
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

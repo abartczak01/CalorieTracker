@@ -1,0 +1,195 @@
+<mat-card class="daily-menu-card mt-2" appearance="outlined">
+  <mat-accordion multi>
+    <mat-expansion-panel [expanded]="false" hideToggle disabled>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div>Meal</div>
+        </mat-panel-title>
+        <mat-panel-description class="meal-desc">
+          <div class="nutrien">
+            P<span class="big-text">rotein</span>
+            (g)
+          </div>
+          <div class="nutrien">F<span class="big-text">at</span> (g)</div>
+          <div class="nutrien">C<span class="big-text">arbs</span> (g)</div>
+
+          <div class="nutrien to-hide">Fiber (g)</div>
+          <div class="nutrien to-hide">Sodium (mg)</div>
+          <div class="buttons"></div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    @for (meal of dailyMenu.meals; track meal) {
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="title">
+          <div>
+            {{ meal.name }} - {{ meal.mealKcal | number : "1.0-2" }} kcal
+          </div>
+        </mat-panel-title>
+        <mat-panel-description class="meal-desc">
+          <div class="nutrien">{{ meal.mealProtein | number : "1.0-2" }}</div>
+          <div class="nutrien">{{ meal.mealFat | number : "1.0-2" }}</div>
+          <div class="nutrien">
+            {{ meal.mealCarbohydrate | number : "1.0-2" }}
+          </div>
+
+          <div class="nutrien to-hide">
+            {{ meal.mealFiber | number : "1.0-2" }}
+          </div>
+          <div class="nutrien to-hide">
+            {{ meal.mealSodium | number : "1.0-2" }}
+          </div>
+          <div class="buttons">
+            <button
+              mat-raised-button
+              class="plus-btn"
+              (click)="goToAddProductQuantity(meal.id)"
+            >
+              <span>+ </span>
+              <span class="big-btn-text">Product</span>
+            </button>
+          </div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      @if(meal.productQuantities.length > 0) {
+      <div class="table-container">
+        <table
+          mat-table
+          [dataSource]="meal.productQuantities"
+          class="mat-elevation-z2 full-width-table"
+        >
+          <ng-container matColumnDef="productName">
+            <th mat-header-cell *matHeaderCellDef>Product</th>
+            <td mat-cell *matCellDef="let product">
+              <div class="product-name">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #menu="matMenu">
+                  <button
+                    mat-menu-item
+                    (click)="goToEditProductQuantity(product, dailyMenu.id)"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    mat-menu-item
+                    (click)="deleteProductQuantity(product.id)"
+                  >
+                    Delete
+                  </button>
+                </mat-menu>
+                <div>
+                  {{ product.productName }}
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef>Quantity (g/ml)</th>
+            <td mat-cell *matCellDef="let product">{{ product.quantity }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="kcal">
+            <th mat-header-cell *matHeaderCellDef>Kcal</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.kcal | number : "1.0-2" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="protein">
+            <th mat-header-cell *matHeaderCellDef>Protein (g)</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.protein | number : "1.0-2" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fat">
+            <th mat-header-cell *matHeaderCellDef>Fat (g)</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.fat | number : "1.0-2" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="carbohydrate">
+            <th mat-header-cell *matHeaderCellDef>Carbs (g)</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.carbohydrate | number : "1.0-2" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fiber">
+            <th mat-header-cell *matHeaderCellDef>Fiber (g)</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.fiber | number : "1.0-2" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="sodium">
+            <th mat-header-cell *matHeaderCellDef>Sodium (mg)</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.sodium | number : "1.0-2" }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+      } @else {
+      <p class="no-products">No products added to this meal yet.</p>
+      }
+    </mat-expansion-panel>
+    }
+  </mat-accordion>
+</mat-card>
+<mat-card class="mt-2" appearance="outlined">
+  <mat-card-content>
+    <h3>Nutrtion Summary</h3>
+
+    <mat-expansion-panel [expanded]="false" hideToggle disabled>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div>Energy</div>
+        </mat-panel-title>
+        <mat-panel-description class="meal-desc">
+          <div class="nutrien">P<span class="big-text">rotein</span> (g)</div>
+          <div class="nutrien">F<span class="big-text">at</span> (g)</div>
+          <div class="nutrien">C<span class="big-text">arbs</span> (g)</div>
+          <div class="nutrien to-hide">Fiber (g)</div>
+          <div class="nutrien to-hide">Sodium (mg)</div>
+          <div class="buttons"></div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false" hideToggle disabled>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div>{{ dailyMenu.totalKcal | number : "1.0-2" }}kcal</div>
+        </mat-panel-title>
+        <mat-panel-description class="meal-desc">
+          <div class="nutrien">
+            {{ dailyMenu.totalProtein | number : "1.0-2" }}
+          </div>
+          <div class="nutrien">
+            {{ dailyMenu.totalFat | number : "1.0-2" }}
+          </div>
+          <div class="nutrien">
+            {{ dailyMenu.totalCarbohydrate | number : "1.0-2" }}
+          </div>
+
+          <div class="nutrien to-hide">
+            {{ dailyMenu.totalFiber | number : "1.0-2" }}
+          </div>
+          <div class="nutrien to-hide">
+            {{ dailyMenu.totalSodium | number : "1.0-2" }}
+          </div>
+          <div class="buttons"></div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+  </mat-card-content>
+</mat-card>

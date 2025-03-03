@@ -1,0 +1,50 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Change Email</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <form [formGroup]="changeEmailForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="fill">
+            <mat-label>Old Email</mat-label>
+            <input matInput formControlName="oldEmail" type="email" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>New Email</mat-label>
+            <input matInput formControlName="newEmail" type="email" required />
+            @if(changeEmailForm.get('newEmail')?.invalid &&
+            changeEmailForm.get('newEmail')?.touched){
+            <mat-error> Please enter a valid email address. </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Current Password</mat-label>
+            <input
+              matInput
+              formControlName="currentPassword"
+              type="password"
+              required
+            />
+            @if(changeEmailForm.get('currentPassword')?.invalid &&
+            changeEmailForm.get('currentPassword')?.touched){
+            <mat-error> Password is required. </mat-error>
+            }
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="changeEmailForm.invalid"
+          >
+            Change Email
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </mat-expansion-panel>
+</mat-accordion>

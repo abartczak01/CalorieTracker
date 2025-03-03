@@ -1,0 +1,138 @@
+<div class="product-list">
+  <mat-card appearance="outlined">
+    <mat-card-header class="mb-3">
+      <mat-card-title>Search Products</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="search">
+        <mat-form-field appearance="outline">
+          <mat-label>Search by Name</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Search by name"
+            [(ngModel)]="nameFilter"
+            (input)="applyFilter()"
+          />
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="toggleAdvancedFilters()"
+        >
+          {{ showAdvancedFilters ? "Hide" : "Show" }} Filters
+        </button>
+      </div>
+
+      @if(showAdvancedFilters){
+      <p>Advanced filters</p>
+
+      <div class="filters">
+        <mat-form-field appearance="outline">
+          <mat-label>Min Energy</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Min"
+            [(ngModel)]="kcalFilter.min"
+            (input)="applyFilter()"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Max Energy</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Max"
+            [(ngModel)]="kcalFilter.max"
+            (input)="applyFilter()"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Is Vegan</mat-label>
+          <mat-select
+            [(ngModel)]="veganFilter"
+            (selectionChange)="applyFilter()"
+          >
+            <mat-option value="">All</mat-option>
+            <mat-option value="true">Vegan</mat-option>
+            <mat-option value="false">Non-Vegan</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-checkbox [(ngModel)]="highProteinFilter" (change)="applyFilter()">
+          High Protein (≥ 20g)
+        </mat-checkbox>
+        <div>
+          <button
+            class="clear-filter-btn"
+            mat-raised-button
+            color="warn"
+            (click)="clearFilters()"
+          >
+            Clear Filters
+          </button>
+        </div>
+      </div>
+      }
+    </mat-card-content>
+  </mat-card>
+  <div class="table-wrapper">
+    <div class="table-container">
+      <table mat-table matSort [dataSource]="dataSource">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let product">{{ product.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="kcal">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Kcal</th>
+          <td mat-cell *matCellDef="let product">{{ product.kcal }}</td>
+        </ng-container>
+        @if(isForAdminPage){
+        <ng-container matColumnDef="protein">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Protein</th>
+          <td mat-cell *matCellDef="let product">{{ product.protein }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fat">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fat</th>
+          <td mat-cell *matCellDef="let product">{{ product.fat }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="carbohydrate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Carbs</th>
+          <td mat-cell *matCellDef="let product">{{ product.carbohydrate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="isVegan">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Vegan</th>
+          <td mat-cell *matCellDef="let product">
+            {{ product.isVegan ? "Yes" : "No" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Created At</th>
+          <td mat-cell *matCellDef="let product">
+            {{ product.createdAt | date }}
+          </td>
+        </ng-container>
+        }
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="handleRowClick(row)"
+          class="clickable-row"
+        ></tr>
+      </table>
+      <div class="extra-row"></div>
+    </div>
+    <mat-paginator
+      class="paginator"
+      [pageSizeOptions]="[10, 20, 50, 5]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

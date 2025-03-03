@@ -1,0 +1,11 @@
+<mat-dialog-content>
+  <app-product-quantity-form
+    [mealId]="data.mealId"
+    [product]="data.product"
+    [productQuantity]="data.productQuantity"
+    (quantitySaved)="onQuantitySaved()"
+  ></app-product-quantity-form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+</mat-dialog-actions>
